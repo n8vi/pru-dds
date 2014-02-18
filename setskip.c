@@ -9,39 +9,7 @@
 #include <prussdrv.h>
 #include <pruss_intc_mapping.h>
 
-#define PRU_NUM          0
-
-#define DDR_BASEADDR     0x80000000
-#define OFFSET_DDR       0x00001000
-
-static int setskip (int skip)
-{
-  int mem_fd;
-  void *ddrMem;
-  void *DDR_regaddr1;
-
-  /* open the device */
-  mem_fd = open("/dev/mem", O_RDWR);
-  if (mem_fd < 0) {
-    printf("Failed to open /dev/mem (%s)\n", strerror(errno));
-    return -1;
-    }
-
-  /* map the DDR memory */
-  ddrMem = mmap(0, 0x0FFFFFFF, PROT_WRITE | PROT_READ, MAP_SHARED, mem_fd, DDR_BASEADDR);
-  if (ddrMem == NULL) {
-    printf("Failed to map the device (%s)\n", strerror(errno));
-    close(mem_fd);
-    return -1;
-    }
-
-  /* Store Addends in DDR memory location */
-  DDR_regaddr1 = ddrMem + OFFSET_DDR;
-  
-  *(unsigned long*) DDR_regaddr1 = skip;
-
-  return(0);
-}
+#include "util.h"
 
 int main (int argc, char **argv)
 {

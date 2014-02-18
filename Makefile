@@ -4,7 +4,7 @@ CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
 BINS=ramp sawtooth setskip sine square startdds
 
-all: dds.bin ${BINS}
+all: dds.bin ${BINS} BB-BONE-PRU-8GPO-00A0.dtbo
 
 ${BINS} : % : %.o util.o
 	${CC} -o $@ $< util.o ${LDLIBS}

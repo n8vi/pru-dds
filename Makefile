@@ -6,6 +6,9 @@ BINS=ramp sawtooth setskip sine square startdds
 
 all: dds.bin ${BINS}
 
+${BINS} : % : %.o util.o
+	${CC} -o $@ $< util.o ${LDLIBS}
+
 dds.bin: dds.p
 	pasm -b dds.p
 

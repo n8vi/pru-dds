@@ -42,3 +42,6 @@ CPU cycles, right? Hmmm...
 It'll also allow FMing of the signal. I'm totally doing this.
 
 I may write a program for the second PRU that FMs the first PRU.
+
+I will probably also make things a lot less path-dependant at some point (it
+was a quick weekend hack!)

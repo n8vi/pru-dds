@@ -10,6 +10,21 @@
 #include <pruss_intc_mapping.h>
 
 #include "util.h"
+#include "config.h"
+
+unsigned char *wavetable()
+{
+  unsigned char *pruDataMem = (unsigned char *)0;
+
+  //Initialize pointer to PRU data memory
+#if PRUNUM == 0
+    prussdrv_map_prumem (PRUSS0_PRU0_DATARAM, (void**)&pruDataMem);
+#elif PRUNUM == 1
+    prussdrv_map_prumem (PRUSS0_PRU1_DATARAM, (void**)&pruDataMem);
+#endif
+
+  return pruDataMem;
+}
 
 int setskip (int skip)
 {
@@ -32,7 +47,7 @@ int setskip (int skip)
     return -1;
     }
 
-  /* Store Addends in DDR memory location */
+  /* Store skiplen in DDR memory location */
   DDR_regaddr1 = ddrMem + OFFSET_DDR;
 
   *(unsigned long*) DDR_regaddr1 = skip;

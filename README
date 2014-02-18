@@ -1,0 +1,34 @@
+
+This project is a Direct Digital Synthesizer for the Beaglebone Black PRU.  You can load its wavetable
+with various wavesharpes, and you can have it run at all sorts of different frequencies with surprising
+resolution (at 3KHz, it has about 1/100 Hz resolution).
+
+Look for output from P9 31,29,30,28,42,27,41,25 (LSB to MSB) ready to feed into an R-2R or other DAC.
+
+Below are some notes on what I might do with this thing.
+
+Presently, we have a wavetable size of 8 kilosamples and a sample rate of 28.571429 megasamples/second.
+This means that until you get down to 3571.4 Hz, each sample output will be a fresh one from the table.
+Below this frequency we may sit at one position in the table for longer that one sample duration. If we
+drop the wavetable size to 4 kilosamples, then this limiting frequency will be 7142.86Hz. Now, what this
+will do is effectively lower the sample rate, such that, say, if we get down to 1785.7 Hz with the current
+wavetable size and sample rate, the effective sample rate will be 14.285715 Msam/sec. You'll notice that
+the frequency of interest, 1785, is well below nyquist still. We will always at all frequencies be well
+below nyquist, but below samplerate/tablesize, nyquist will decrease.
+
+This seems to me to be no big thing, so I'm presently comtemplating dropping half of the wavetable so it's
+only 4ksam in size, so I can use the rest of PRU memory for configuration, for example, passing in skiplen
+without having to restart the code. Doing this will likely lower the samplerate more, but will allow for
+instantaneous frequency changes with no glitches under (main CPU) software control.
+
+The way I can think of of passing skiplen to the PRU the fastest is to interlace skiplen with the wavetable.
+That way skiplen and the current sample can be read in in one read operation, assuming we can use R30.b1 for
+data storage. We don't necessarily read every sample every pass through the table, so we'd have to write
+skiplen to every second position in the table, and we'd need a way to avoid glitching while we're filling up
+the table with four thousand copies of skiplen ...
+
+Oh, a seperate read is needed anyway because skiplen is 32 bits. Which is four CPU cycles, right? Hmmm...
+
+It'll also allow FMing of the signal. I'm totally doing this.
+
+I may write a program for the second PRU that FMs the first PRU.

@@ -2,7 +2,7 @@
 SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
-BINS=ramp sawtooth setskip sine square startdds
+BINS=ramp sawtooth setskip setfreq sine square startdds
 
 all: dds.bin ${BINS} BB-BONE-PRU-8-00A0.dtbo
 

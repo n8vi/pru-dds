@@ -26,23 +26,22 @@ unsigned char *wavetable()
   return pruDataMem;
 }
 
-int setskip (int skip)
+int setskip (double skiplenf)
 {
   int mem_fd;
   void *ddrMem;
   void *DDR_regaddr1;
+  int skiplen;
 
   /* open the device */
   mem_fd = open("/dev/mem", O_RDWR);
   if (mem_fd < 0) {
-    printf("Failed to open /dev/mem (%s)\n", strerror(errno));
     return -1;
     }
 
   /* map the DDR memory */
   ddrMem = mmap(0, 0x0FFFFFFF, PROT_WRITE | PROT_READ, MAP_SHARED, mem_fd, DDR_BASEADDR);
   if (ddrMem == NULL) {
-    printf("Failed to map the device (%s)\n", strerror(errno));
     close(mem_fd);
     return -1;
     }
@@ -50,7 +49,17 @@ int setskip (int skip)
   /* Store skiplen in DDR memory location */
   DDR_regaddr1 = ddrMem + OFFSET_DDR;
 
-  *(unsigned long*) DDR_regaddr1 = skip;
+  if (skiplenf > (TABLELEN/2)) {
+    skiplenf = *(unsigned long*) DDR_regaddr1;
+    skiplenf /= 524288;
+    close(mem_fd);
+    return skiplenf;
+    }
+
+  skiplenf *= 524288;  // <<=19
+  skiplen = (int)skiplenf;
+
+  *(unsigned long*) DDR_regaddr1 = skiplen;
 
   return(0);
 }

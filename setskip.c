@@ -16,22 +16,13 @@ int main (int argc, char **argv)
   unsigned int ret;
   tpruss_intc_initdata pruss_intc_initdata = PRUSS_INTC_INITDATA;
   double skiplenf;
-  int skiplen;
 
   if (argc != 2) {
-    printf("Usage %s <frequency> %d\n", argv[0], argc);
+    printf("Usage %s <skiplen> %d\n", argv[0], argc);
     return 0;
     }
 
   skiplenf = atof(argv[1]);
-
-  if (skiplenf > 4096.0) {
-    printf("Skiplen %f exceeds 1/2 table length.  Nyquist says no.\n", skiplenf);
-    return(0);
-    }
-
-  skiplenf *= 524288;  // <<=19
-  skiplen = (int)skiplenf;
 
   prussdrv_init ();
 
@@ -43,7 +34,7 @@ int main (int argc, char **argv)
 
   prussdrv_pruintc_init(&pruss_intc_initdata);
 
-  setskip((int)skiplen);
+  setskip(skiplenf);
 
   // Reset PRU instruction pointer to get it to reload skiplen from DDR
   // perhaps there's a better way, but this works for me

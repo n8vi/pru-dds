@@ -30,11 +30,11 @@ static int loadwavetable(unsigned short pruNum)
     prussdrv_map_prumem (PRUSS0_PRU1_DATARAM, (void**)&pruDataMem);
     }
 
-  for (i=0; i<TABLESIZE; i++) {
+  for (i=0; i<TABLELEN; i++) {
     if (i&4096) {
-      pruDataMem[i] = i / (TABLESIZE/512) ;
+      pruDataMem[i] = i / (TABLELEN/512) ;
     } else {
-      pruDataMem[i] = 255 - i / (TABLESIZE/512) ;
+      pruDataMem[i] = 255 - i / (TABLELEN/512) ;
       }
     }
   return(0);

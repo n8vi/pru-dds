@@ -7,9 +7,10 @@
 int main (int argc, char **argv)
 {
   double freqf;
+  int ret;
 
   if (argc != 2) {
-    printf("Usage %s <frequency> %d\n", argv[0], argc);
+    printf("Usage %s <frequency>\n", argv[0]);
     return 0;
     }
 
@@ -17,7 +18,12 @@ int main (int argc, char **argv)
 
   pruinit();
 
-  setskip(freqf);
+  ret = setfreq(freqf);
+
+  if (ret) {
+    printf("Error setting freq %f\n", freqf);
+    return(0);
+    }
 
   // Reset PRU instruction pointer to get it to reload skiplen from DDR
   // perhaps there's a better way, but this works for me

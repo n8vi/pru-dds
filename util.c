@@ -50,10 +50,13 @@ int setskip (double skiplenf)
   DDR_regaddr1 = ddrMem + OFFSET_DDR;
 
   if (skiplenf > (TABLELEN/2)) {
+    /*
     skiplenf = *(unsigned long*) DDR_regaddr1;
     skiplenf /= 524288;
     close(mem_fd);
     return skiplenf;
+    */
+    return -1;
     }
 
   skiplenf *= 524288;  // <<=19

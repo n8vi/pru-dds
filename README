@@ -43,5 +43,15 @@ It'll also allow FMing of the signal. I'm totally doing this.
 
 I may write a program for the second PRU that FMs the first PRU.
 
+Also on the horizon, using the PRU's MAC to allow for amplitude modification,
+which will be another integer we pass through PRU DataRam as we do with
+skiplen.  Not sure if we can do multiplication of signed integers, but that
+would be the easiest way to implement a cosine-shaped BPSK transmitter.  I
+can then, of course, write a BPSK transmitter that runs in the second PRU.
+Or an ASK transmitter, or AM, or QAM, or whatever.
+
+All of this will lower the sample rate, but hopefully lead to some interesting
+projects.  I may fork the high-speed DDS to make the super-extensible one.
+
 I will probably also make things a lot less path-dependant at some point (it
 was a quick weekend hack!)

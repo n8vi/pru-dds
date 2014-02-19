@@ -70,3 +70,22 @@ int setfreq(double freq)
   skiplen = (freq * TABLELEN * CPUCYCLES) / CLOCKRATE;
   return setskip(skiplen);
 }
+
+int pruinit (void)
+{
+  int ret;
+  tpruss_intc_initdata pruss_intc_initdata = PRUSS_INTC_INITDATA;
+
+  prussdrv_init ();
+
+  ret = prussdrv_open(PRU_EVTOUT_0);  // is this specific per PRU?
+  if (ret) {
+    printf("prussdrv_open open failed\n");
+    return (ret);
+    }
+
+  prussdrv_pruintc_init(&pruss_intc_initdata);
+
+  return(0);
+}
+

@@ -69,7 +69,7 @@ int setskip (double skiplenf)
 
 int setfreq(double freq)
 {
-  int skiplen;
+  double skiplen;
   skiplen = (freq * TABLELEN * CPUCYCLES) / CLOCKRATE;
   return setskip(skiplen);
 }

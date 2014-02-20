@@ -25,13 +25,6 @@ int main (int argc, char **argv)
     return(0);
     }
 
-  // Reset PRU instruction pointer to get it to reload skiplen from DDR
-  // perhaps there's a better way, but this works for me
-  // prussdrv_pru_reset() blows away whatever code is in the PRU, and we don't want that.
-
-  prussdrv_pru_disable ( 0 );
-  prussdrv_pru_enable ( 0 );
-
   return(0);
 }
 

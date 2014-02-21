@@ -6,7 +6,7 @@
 #define TABLEBITS (13)
 #define CPUCYCLES (7)
 #define CLOCKRATE (200000000)
-#define PRUNUM (0)
+#define PRUNUM (1)
 #define TABLELEN  (8192) 
 #define TABLEPREC (19)
 #define TABLEMULT (524288)

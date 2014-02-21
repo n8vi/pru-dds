@@ -68,8 +68,8 @@ int setskip (double skiplenf)
   // perhaps there's a better way, but this works for me
   // prussdrv_pru_reset() blows away whatever code is in the PRU, and we don't want that.
 
-  prussdrv_pru_disable ( PRU_NUM );
-  prussdrv_pru_enable ( PRU_NUM );
+  prussdrv_pru_disable ( PRUNUM );
+  prussdrv_pru_enable ( PRUNUM );
 
   return(0);
 }

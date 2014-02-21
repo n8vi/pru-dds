@@ -6,7 +6,7 @@ int main (void)
 {
   pruinit();
 
-  prussdrv_exec_program (PRU_NUM, "./dds.bin");
+  prussdrv_exec_program (PRUNUM, "./dds.bin");
 
   return(0);
 }

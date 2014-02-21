@@ -1,12 +1,23 @@
 This project is a Direct Digital Synthesizer for the Beaglebone Black
 PRU.  You can load its wavetable with various waveshapes, and you can
 have it run at all sorts of different frequencies with surprising
-resolution (at 3KHz, it has about 1/100 Hz resolution).
+resolution (at 3KHz, it has about 1/100 Hz resolution).  Hooked to
+an op-amp it could be used as a pretty good low-frequency signal
+generator for testing things, or perhaps be the LO for something?
 
 Look for output from P9 31,29,30,28,42,27,41,25 (LSB to MSB) ready to
-feed into an R-2R or other DAC.
+feed into an R-2R or other DAC.  IF you modify config.pl to use PRU1
+instead of PRU0, look for output on P8 45,46,43,44,41,42,39,40. 
+Running on PRU1 has only been tested so far as compiling the dtbo and
+successfully installing it, so it may not work at all.  Be aware that
+since in my experience uninstalling a dtbo requires a reboot anyway,
+I make all variants of my dtbo have the same name (which is probably 
+very very bad practice.  I'll deal with that if someone finds a
+legitimate reason to complain about it.
 
-Below are some notes on what I might do with this thing.
+Below are some notes on what I might do with this thing.  These notes
+were written before I added config.pl, which I did in the furtherance
+of these vaguely stated goals.
 
 Presently, we have a wavetable size of 8 kilosamples and a sample rate
 of 28.571429 megasamples/second.  This means that until you get down to

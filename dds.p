@@ -1,3 +1,5 @@
+#include "config.h"
+
 .origin 0
 .entrypoint START
 
@@ -15,19 +17,18 @@ START:
 
 	MOV	r10, 0
 	MOV	r11, CTBIR_0
-	// ST32	r10, r11
 	SBBO    r10,r11,0,4     // set up C24 = &PRU0_DRAM
 
 	MOV     r10, 0x00100000
 	MOV	r11, CTPPR_1
-	// ST32	r10, r11
 	SBBO    r10,r11,0,4     // set up C31 = &DDR
 	LBCO	r3, CONST_DDR, 0, 4 // Load skipcount from DDR
 
-SPIN:
+// timing relies on the length of this loop.  Change config.h if you change this.
+SPIN: 
 	ADD	r2, r2, r3			//  1
 	MOV	r1, r2				// +1
-	LSR	r1, r1, 19			// +1
+	LSR	r1, r1, TABLEPREC      		// +1
 	LBCO	r30.b0, CONST_PRUDRAM, r1, 1	// +3
 	QBA	SPIN				// +1
 						// ===

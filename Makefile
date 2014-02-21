@@ -4,7 +4,7 @@ CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
 BINS=ramp sawtooth setfreq sine square startdds
 
-all: dds.bin ${BINS} BB-BONE-PRU-8-00A0.dtbo
+all: dds.bin ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
 
 ${BINS} : % : %.o util.o
 	${CC} -o $@ $< util.o ${LDLIBS}
@@ -15,9 +15,9 @@ ${BINS} : % : %.o util.o
 %.dtbo: %.dts
 	dtc -O dtb -o $@ -b 0 -@ $<
 
-install-dtbo: BB-BONE-PRU-8-00A0.dtbo
-	cp BB-BONE-PRU-8-00A0.dtbo /lib/firmware/
-	echo BB-BONE-PRU-8 > /sys/devices/bone_capemgr.*/slots || echo 'Error installing DTBO (already installed?)'
+install-dtbo: BB-BONE-PRUDDS-1-00A0.dtbo
+	cp BB-BONE-PRUDDS-1-00A0.dtbo /lib/firmware/
+	echo BB-BONE-PRUDDS-1 > /sys/devices/bone_capemgr.*/slots || echo 'Error installing DTBO (already installed?)'
 
 test: install-dtbo all
 	sleep 1

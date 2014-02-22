@@ -17,11 +17,11 @@ ${BINS} : % : %.o util.o
 %.dtbo: %.dts
 	dtc -O dtb -o $@ -b 0 -@ $<
 
-config.h: config.pl
-	perl config.pl _config_h
+config.h: config.pl genfile.pl
+	perl genfile.pl _config_h 
 
-BB-BONE-PRUDDS-1-00A0.dts: config.pl
-	perl config.pl _dts
+BB-BONE-PRUDDS-1-00A0.dts: config.pl genfile.pl
+	perl genfile.pl _dts
 
 install-dtbo: BB-BONE-PRUDDS-1-00A0.dtbo
 	cp BB-BONE-PRUDDS-1-00A0.dtbo /lib/firmware/

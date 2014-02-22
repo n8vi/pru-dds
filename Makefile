@@ -9,7 +9,10 @@ all: dds.bin ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
 ${BINS} : % : %.o util.o
 	${CC} -o $@ $< util.o ${LDLIBS}
 
-%.bin: %.p
+%.o : %.c config.h
+	${CC} -c -o $@ $<
+
+%.bin: %.p config.h
 	pasm -b $<
 
 %.dtbo: %.dts
@@ -19,6 +22,12 @@ install-dtbo: BB-BONE-PRUDDS-1-00A0.dtbo
 	cp BB-BONE-PRUDDS-1-00A0.dtbo /lib/firmware/
 	echo BB-BONE-PRUDDS-1 > /sys/devices/bone_capemgr.*/slots || echo 'Error installing DTBO (already installed?)'
 
+config.h: config.pl
+	perl config.pl _config_h
+
+BB-BONE-PRUDDS-1-00A0.dts: config.pl
+	perl config.pl _dts
+
 test: install-dtbo all
 	sleep 1
 	./sine
@@ -26,4 +35,4 @@ test: install-dtbo all
 	./startdds
 
 clean:
-	rm -fr *.bib *.bin *~ *_bin.h *.o *.dtbo .*.swp ${BINS}
+	rm -fr *.bib *.bin *~ *_bin.h *.o *.dtbo .*.swp ${BINS} config.h BB-BONE-PRUDDS-1-00A0.dts

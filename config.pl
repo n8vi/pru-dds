@@ -5,7 +5,7 @@ $tablebits = 13;
 # The number of samples in the wavetable will be two raised
 # to this power, maximum 13.  13=>8192, 12=>4096, etc
 
-$ddsbits = 8;
+$ddsbits = 6;
 # how many bits should the DDS output?
 # Choose 1 to 8 (perhaps more later)
 # (so far only tested with 8)

@@ -11,7 +11,7 @@ static int loadwavetable()
   if (table) {
     for (i=0; i<TABLELEN; i++) {
       if (i&4096) {
-        table[i] = 0xff;
+        table[i] = (DDSMAX-1);
       } else {
         table[i] = 0;
         }

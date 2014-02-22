@@ -10,7 +10,7 @@ static int loadwavetable()
 
   if (table) {
     for (i=0; i<TABLELEN; i++) {
-      table[i] = i / (TABLELEN/254) ;
+      table[i] = i / (TABLELEN/(DDSMAX-1)) ;
       }
     return 0;
   } else {

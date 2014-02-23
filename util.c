@@ -60,7 +60,7 @@ int setddrint (int offset, int ddrint)
   return(0);
 }
 
-int getddrint (int offset)
+unsigned long getddrint (int offset)
 {
   int mem_fd;
   void *ddrMem;
@@ -95,7 +95,7 @@ int setskip (double skiplenf)
     return -1;
     }
 
-  skiplenf *= 524288;  // <<=19
+  skiplenf *= TABLEMULT;  // <<=19
   skiplen = (int)skiplenf;
 
   return(setddrint(0, skiplen));
@@ -106,6 +106,24 @@ int setfreq(double freq)
   double skiplen;
   skiplen = (freq * TABLELEN * CPUCYCLES) / CLOCKRATE;
   return setskip(skiplen);
+}
+
+double getskip()
+{
+  double ret;
+  ret = (double)getddrint(0);
+  ret /= TABLEMULT;
+  return ret;
+}
+
+double getfreq()
+{
+  double ret;
+
+  ret = getskip() * CLOCKRATE;
+  ret /= (TABLELEN*CPUCYCLES);
+
+  return ret;
 }
 
 int pruinit (void)

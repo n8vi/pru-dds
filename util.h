@@ -5,10 +5,9 @@
 #define DDR_BASEADDR     0x80000000
 #define OFFSET_DDR       0x00001000
 
-int setskip (double skiplenf);
 unsigned char *wavetable();
-
 int setfreq(double freq);
+double getfreq();
 int pruinit (void);
 
 

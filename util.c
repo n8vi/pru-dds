@@ -26,12 +26,11 @@ unsigned char *wavetable()
   return pruDataMem;
 }
 
-int setskip (double skiplenf)
+int setddrint (int offset, int ddrint)
 {
   int mem_fd;
   void *ddrMem;
   void *DDR_regaddr1;
-  int skiplen;
 
   /* open the device */
   mem_fd = open("/dev/mem", O_RDWR);
@@ -47,24 +46,11 @@ int setskip (double skiplenf)
     }
 
   /* Store skiplen in DDR memory location */
-  DDR_regaddr1 = ddrMem + OFFSET_DDR;
+  DDR_regaddr1 = ddrMem + OFFSET_DDR + offset;
 
-  if (skiplenf > (TABLELEN/2)) {
-    /*
-    skiplenf = *(unsigned long*) DDR_regaddr1;
-    skiplenf /= 524288;
-    close(mem_fd);
-    return skiplenf;
-    */
-    return -1;
-    }
+  *(unsigned long*) DDR_regaddr1 = ddrint;
 
-  skiplenf *= 524288;  // <<=19
-  skiplen = (int)skiplenf;
-
-  *(unsigned long*) DDR_regaddr1 = skiplen;
-
-  // Reset PRU instruction pointer to get it to reload skiplen from DDR
+  // Reset PRU instruction pointer to get it to reload value from DDR
   // perhaps there's a better way, but this works for me
   // prussdrv_pru_reset() blows away whatever code is in the PRU, and we don't want that.
 
@@ -72,6 +58,47 @@ int setskip (double skiplenf)
   prussdrv_pru_enable ( PRUNUM );
 
   return(0);
+}
+
+int getddrint (int offset)
+{
+  int mem_fd;
+  void *ddrMem;
+  void *DDR_regaddr1;
+  int ret;
+
+  /* open the device */
+  mem_fd = open("/dev/mem", O_RDWR);
+  if (mem_fd < 0) {
+    return -1;
+    }
+
+  /* map the DDR memory */
+  ddrMem = mmap(0, 0x0FFFFFFF, PROT_WRITE | PROT_READ, MAP_SHARED, mem_fd, DDR_BASEADDR);
+  if (ddrMem == NULL) {
+    close(mem_fd);
+    return -1;
+    }
+
+  DDR_regaddr1 = ddrMem + OFFSET_DDR + offset;
+
+  ret = *(unsigned long*) DDR_regaddr1;
+  close(mem_fd);
+  return ret;
+}
+
+int setskip (double skiplenf)
+{
+  int skiplen;
+
+  if (skiplenf > (TABLELEN/2)) {
+    return -1;
+    }
+
+  skiplenf *= 524288;  // <<=19
+  skiplen = (int)skiplenf;
+
+  return(setddrint(0, skiplen));
 }
 
 int setfreq(double freq)

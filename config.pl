@@ -18,6 +18,5 @@ $clockrate = 200000000;
 # This shouldn't change unless youre not on a beaglebone black
 
 $prunum = 0;
-# Which PRU are we to run the DDS code on? I still need to write
-# code to make PRU1 an option, so theres really one choice ...
+# Which PRU are we to run the DDS code on?
 

@@ -8,7 +8,6 @@ $tablebits = 13;
 $ddsbits = 8;
 # how many bits should the DDS output?
 # Choose 1 to 8 (perhaps more later)
-# (so far only tested with 8)
 
 $cpucycles = 7;
 # How many CPU cycles in the DDS main loop? (see dds.p)

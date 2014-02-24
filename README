@@ -5,6 +5,20 @@ resolution (at 3KHz, it has about 1/100 Hz resolution).  Hooked to
 an op-amp it could be used as a pretty good low-frequency signal
 generator for testing things, or perhaps be the LO for something?
 
+Be aware, PRU fast GPIO is incompatible with the HDMI, so firstly
+you can't use them together, and secondly, you'll have to disable
+the HDMI by doing the following:
+
+# mount /dev/mmcblk0p1 /mnt/card
+You should find the file "/mnt/card/uEnv.txt", which should have a
+single line of text in it, to which you should append the following:
+# capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
+So for example if the file contains 
+optargs=quiet
+You should change it to contain
+optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
+Having done this, save the file and reboot.
+
 Look for output from P9 31,29,30,28,42,27,41,25 (LSB to MSB) ready to
 feed into an R-2R or other DAC.  IF you modify config.pl to use PRU1
 instead of PRU0, look for output on P8 45,46,43,44,41,42,39,40. 

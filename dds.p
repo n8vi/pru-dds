@@ -28,7 +28,7 @@ START:
 SPIN: 
 	ADD	r2, r2, r3			//  1
 	MOV	r1, r2				// +1
-	LSR	r1, r1, TABLEPREC      		// +1
+	LSR	r1, r1, TABLEPREC		// +1
 	LBCO	r30.b0, CONST_PRUDRAM, r1, 1	// +3
 	QBA	SPIN				// +1
 						// ===

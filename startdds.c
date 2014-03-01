@@ -9,7 +9,9 @@ int main (void)
 {
   pruinit();
 
+  prussdrv_pru_disable ( PRUNUM );
   prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)PRUcode, sizeof(PRUcode));
+  prussdrv_pru_enable ( PRUNUM );
 
   return(0);
 }

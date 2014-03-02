@@ -26,3 +26,4 @@ $prunum = 0;
 $realtimefreq = 1;
 # glitch-free frequency changes (in exchange for lower max frequency)
 # rerun startdds and setfreq after changing this
+# you probably want this set to 1 if you intend to use the "sweep" program

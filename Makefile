@@ -1,7 +1,7 @@
 SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
-BINS=startdds setfreq getfreq sine square ramp sawtooth 
+BINS=startdds setfreq getfreq sine square ramp sawtooth sweep
 
 all: ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
 

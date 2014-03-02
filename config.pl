@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-$tablebits = 13;
+$tablebits = 12;
 # How many bits should be used to address the wavetable?
 # The number of samples in the wavetable will be two raised
 # to this power, maximum 13.  13=>8192, 12=>4096, etc
@@ -19,3 +19,5 @@ $clockrate = 200000000;
 $prunum = 0;
 # Which PRU are we to run the DDS code on?
 
+$realtimefreq = 1;
+# glitch-free frequency changes (in exchange for lower max frequency)

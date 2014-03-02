@@ -61,6 +61,16 @@ int setddrint (int offset, int ddrint)
   return(0);
 }
 
+int setdramint (int offset, int dramint)
+{
+  int *dramMem;
+
+  dramMem = (int *)(wavetable()+4096+offset);
+  *dramMem = dramint;
+
+  return 0;
+}
+
 unsigned long getddrint (int offset)
 {
   int mem_fd;
@@ -88,6 +98,14 @@ unsigned long getddrint (int offset)
   return ret;
 }
 
+int getdramint (int offset)
+{
+  int *dramMem;
+
+  dramMem = (int *)(wavetable()+4096+offset);
+  return *dramMem;
+}
+
 int setskip (double skiplenf)
 {
   int skiplen;
@@ -99,7 +117,11 @@ int setskip (double skiplenf)
   skiplenf *= TABLEMULT;  // <<=19
   skiplen = (int)skiplenf;
 
+#ifdef REALTIMEFREQ
+  return(setdramint(0, skiplen));
+#else
   return(setddrint(0, skiplen));
+#endif
 }
 
 int setfreq(double freq)
@@ -112,7 +134,11 @@ int setfreq(double freq)
 double getskip()
 {
   double ret;
+#ifdef REALTIMEFREQ
+  ret = (double)getdramint(0);
+#else
   ret = (double)getddrint(0);
+#endif
   ret /= TABLEMULT;
   return ret;
 }

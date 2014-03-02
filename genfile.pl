@@ -7,6 +7,20 @@ $tableprec = 32-$tablebits; # how many bits left over in skiplen for the fractio
 $tablemult = 1<<$tableprec; # what I divide skiplen integer by to determine how many samples to jump
 $ddsmax = 1<<$ddsbits;
 
+if ($tablebits > 13) {
+  die "\$tablebits too high for available DRAM - must be 13 or less (see config.pl)\n";
+  }
+
+if ($realtimefreq) {
+  if ($tablebits > 12) {
+    die "\$tablebits too high to use realtime features - must be 12 or less (see config.pl)\n";
+    }
+  $defrealtimefreq = "#define REALTIMEFREQ";
+  $cpucycles += 3;
+} else {
+  $defrealtimefreq = '';
+  }
+
 if ($ARGV[0] eq '_config_h') {
   open($configh, ">config.h");
 
@@ -25,6 +39,7 @@ if ($ARGV[0] eq '_config_h') {
 #define TABLEMULT ($tablemult)
 #define DDSBITS ($ddsbits)
 #define DDSMAX ($ddsmax)
+$defrealtimefreq
 
 #endif
 ECONFIGH

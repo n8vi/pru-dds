@@ -22,10 +22,17 @@ START:
 	MOV     r10, 0x00100000
 	MOV	r11, CTPPR_1
 	SBBO    r10,r11,0,4     // set up C31 = &DDR
+#ifdef REALTIMEFREQ
+	MOV	r12, 4096
+#else
 	LBCO	r3, CONST_DDR, 0, 4 // Load skipcount from DDR
+#endif
 
 // timing relies on the length of this loop.  Change config.h if you change this.
 SPIN: 
+#ifdef REALTIMEFREQ
+	LBCO	r3, CONST_PRUDRAM, r12, 4 // Load skipcount from DRAM // 3
+#endif
 	ADD	r2, r2, r3			//  1
 	MOV	r1, r2				// +1
 	LSR	r1, r1, TABLEPREC		// +1

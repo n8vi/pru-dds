@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <string.h>
+#include <math.h>
 
 #include <prussdrv.h>
 #include <pruss_intc_mapping.h>
@@ -122,6 +123,9 @@ double getfreq()
 
   ret = getskip() * CLOCKRATE;
   ret /= (TABLELEN*CPUCYCLES);
+  ret *= 10;
+  ret = round(ret);
+  ret /= 10;
 
   return ret;
 }

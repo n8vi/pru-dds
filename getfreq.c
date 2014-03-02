@@ -8,7 +8,7 @@ int main (int argc, char **argv)
 {
   pruinit();
 
-  printf("Current frequency: %f\n", getfreq());
+  printf("Current frequency: %0.1f\n", getfreq());
 
   return(0);
 }

@@ -9,7 +9,7 @@ $tablebits = 12;
 $ddsbits = 8;
 # how many bits should the DDS output?
 # Choose 1 to 8 (perhaps more later)
-# run one of the wavetable loaders after changing this
+# reboot and run make test after changing this
 
 $cpucycles = 7;
 # How many CPU cycles in the DDS main loop? (see dds.p)

@@ -22,6 +22,12 @@ You should change it to contain
  optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
 Having done this, save the file and reboot.
 
+Also, if you are having trouble cloning this project from git, look 
+into the following URL:
+http://derekmolloy.ie/fixing-git-and-curl-certificates-problem-on-beaglebone-blac/
+and while you're at it, fix your clock:
+http://derekmolloy.ie/automatically-setting-the-beaglebone-black-time-using-ntp/
+
 Look for output from P9 31,29,30,28,42,27,41,25 (LSB to MSB) ready to
 feed into an R-2R or other DAC.  IF you modify config.pl to use PRU1
 instead of PRU0, look for output on P8 45,46,43,44,41,42,39,40. 

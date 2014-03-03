@@ -31,7 +31,8 @@ legitimate reason to complain about it.
 
 Below are some notes on what I might do with this thing.  These notes
 were written before I added config.pl, which I did in the furtherance
-of these vaguely stated goals.
+of these vaguely stated goals.  I have recently added my present-day
+comments in square brackets.
 
 Presently, we have a wavetable size of 8 kilosamples and a sample rate
 of 28.571429 megasamples/second.  This means that until you get down to
@@ -51,7 +52,8 @@ half of the wavetable so it's only 4ksam in size, so I can use the rest of
 PRU memory for configuration, for example, passing in skiplen without having
 to restart the code. Doing this will likely lower the samplerate more, but
 will allow for instantaneous frequency changes with no glitches under (main
-CPU) software control.
+CPU) software control. 
+[DONE, CONFIGURABLE EVEN]
 
 The way I can think of of passing skiplen to the PRU the fastest is to
 interlace skiplen with the wavetable.  That way skiplen and the current sample
@@ -59,7 +61,8 @@ can be read in in one read operation, assuming we can use R30.b1 for data
 storage. We don't necessarily read every sample every pass through the table,
 so we'd have to write skiplen to every second position in the table, and we'd
 need a way to avoid glitching while we're filling up the table with four
-thousand copies of skiplen ...
+thousand copies of skiplen ... 
+[NOT DONE, HOW ABOUT PRETEND I NEVER WROTE THIS PARAGRAPH]
 
 Oh, a seperate read is needed anyway because skiplen is 32 bits. Which is four
 CPU cycles, right? Hmmm...
@@ -67,6 +70,7 @@ CPU cycles, right? Hmmm...
 It'll also allow FMing of the signal. I'm totally doing this.
 
 I may write a program for the second PRU that FMs the first PRU.
+[EVENTUALLY]
 
 Also on the horizon, using the PRU's MAC to allow for amplitude modification,
 which will be another integer we pass through PRU DataRam as we do with
@@ -74,9 +78,12 @@ skiplen.  Not sure if we can do multiplication of signed integers, but that
 would be the easiest way to implement a cosine-shaped BPSK transmitter.  I
 can then, of course, write a BPSK transmitter that runs in the second PRU.
 Or an ASK transmitter, or AM, or QAM, or whatever.
+[THE ABILITY TO CHANGE AMPLITUDE WILL BE THE IMMEDIATE NEXT PROJECT]
 
 All of this will lower the sample rate, but hopefully lead to some interesting
 projects.  I may fork the high-speed DDS to make the super-extensible one.
+[PROBABLY NOT]
 
 I will probably also make things a lot less path-dependant at some point (it
-was a quick weekend hack!)
+was a quick weekend hack!) 
+[DONE, MAY MAKE INSTALL TARGET AFTER RENAMING BINARIES SOMETHING SANE]

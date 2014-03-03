@@ -1,22 +1,25 @@
-This project is a Direct Digital Synthesizer for the Beaglebone Black
-PRU.  You can load its wavetable with various waveshapes, and you can
-have it run at all sorts of different frequencies with surprising
-resolution (at 3KHz, it has about 1/100 Hz resolution).  Hooked to
-an op-amp it could be used as a pretty good low-frequency signal
-generator for testing things, or perhaps be the LO for something?
+This project is a Direct Digital Synthesizer signal generator for 
+the Beaglebone Black PRU (it may also work on other boards such as
+the Beaglebone White, but I haven't tested this).  You can load its 
+wavetable with various waveshapes, and you can have it run at all
+sorts of different frequencies with surprising resolution (at 3KHz,
+it has about 1/100 Hz resolution).  Hooked to an op-amp it could be
+used as a pretty good low-frequency signal generator for testing
+things, or perhaps be the LO for something?
 
 Be aware, PRU fast GPIO is incompatible with the HDMI, so firstly
 you can't use them together, and secondly, you'll have to disable
-the HDMI by doing the following:
+the HDMI by doing the following (this is, of course, totally
+reversable!):
 
 # mount /dev/mmcblk0p1 /mnt/card
 You should find the file "/mnt/card/uEnv.txt", which should have a
 single line of text in it, to which you should append the following:
-# capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
+ capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
 So for example if the file contains 
-optargs=quiet
+ optargs=quiet
 You should change it to contain
-optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
+ optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
 Having done this, save the file and reboot.
 
 Look for output from P9 31,29,30,28,42,27,41,25 (LSB to MSB) ready to

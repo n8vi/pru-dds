@@ -22,6 +22,11 @@ int main (int argc, char **argv)
   hifreq = atof(argv[2]);
   usecs = atoi(argv[3]);
 
+  if (lowfreq >= hifreq) {
+    fprintf(stderr, "Low frequency must be lower than high frequency\n");
+    exit(0);
+    }
+
   while (1) {
     for (freqf=lowfreq; freqf<hifreq; freqf++) {
       setfreq(freqf);

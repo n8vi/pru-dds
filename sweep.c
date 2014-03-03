@@ -11,6 +11,8 @@ int main (int argc, char **argv)
   int usecs;
   double lowfreq, hifreq;
 
+  pruinit(&argc, argv);
+
   if (argc != 4) {
     printf ("Usage: %s <lowfreq> <hifreq> <usecs>\n  Where <usecs> is the number of microseconds to delay between frequency changes\n", argv[0]);
     exit(0);
@@ -19,8 +21,6 @@ int main (int argc, char **argv)
   lowfreq = atof(argv[1]);
   hifreq = atof(argv[2]);
   usecs = atoi(argv[3]);
-
-  pruinit();
 
   while (1) {
     for (freqf=lowfreq; freqf<hifreq; freqf++) {

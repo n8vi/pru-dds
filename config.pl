@@ -20,7 +20,7 @@ $clockrate = 200000000;
 # This shouldn't change unless youre not on a beaglebone black
 
 $prunum = 0;
-# Which PRU are we to run the DDS code on?
+# Which PRU are we to run the DDS code on by default?
 # rerun startdds after changing this
 
 $realtimefreq = 1;

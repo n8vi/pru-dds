@@ -8,7 +8,7 @@
 unsigned char *wavetable();
 int setfreq(double freq);
 double getfreq();
-int pruinit (void);
-
+int prunum();
+int pruinit (int *argc, char **argv);
 
 #endif

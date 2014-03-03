@@ -13,16 +13,18 @@
 #include "util.h"
 #include "config.h"
 
+static int _prunum;
+
 unsigned char *wavetable()
 {
   unsigned char *pruDataMem = (unsigned char *)0;
 
   //Initialize pointer to PRU data memory
-#if PRUNUM == 0
+  if (_prunum == 0) {
     prussdrv_map_prumem (PRUSS0_PRU0_DATARAM, (void**)&pruDataMem);
-#elif PRUNUM == 1
+  } else if (_prunum == 1) {
     prussdrv_map_prumem (PRUSS0_PRU1_DATARAM, (void**)&pruDataMem);
-#endif
+    }
 
   return pruDataMem;
 }
@@ -55,8 +57,8 @@ int setddrint (int offset, int ddrint)
   // perhaps there's a better way, but this works for me
   // prussdrv_pru_reset() blows away whatever code is in the PRU, and we don't want that.
 
-  prussdrv_pru_disable ( PRUNUM );
-  prussdrv_pru_enable ( PRUNUM );
+  prussdrv_pru_disable ( _prunum );
+  prussdrv_pru_enable ( _prunum );
 
   return(0);
 }
@@ -156,14 +158,56 @@ double getfreq()
   return ret;
 }
 
-int pruinit (void)
+int getprunum(int *argc, char **argv)
+{
+  int prunum;
+  char *prustr = NULL;
+  int i,j;
+
+  for (i=0; i<*argc; i++) {
+    if (argv[i][0] == '-' && argv[i][1] == 'p') {
+      if (argv[i][2] == '\0') {
+        prustr = argv[i+1];
+        for(j=i+2; j<*argc; j++) {
+          argv[j-2] = argv[j];
+          }
+        *argc -= 2;
+      } else {
+        prustr = argv[i]+2;
+        for(j=i+1; j<*argc; j++) {
+          argv[j-1] = argv[j];
+          }
+        *argc -= 1;
+        }
+      }
+    }
+
+  if (! prustr) {
+    return PRUNUM;
+    }
+  prunum = atoi(prustr);
+  if (prunum != 0 && prunum != 1) {
+    printf("ERROR: Invalid PRU specified (%d)\n", prunum);
+    exit(0);
+    }
+  return prunum;
+}
+
+int prunum()
+{
+  return _prunum;
+}
+
+int pruinit (int *argc, char **argv)
 {
   int ret;
   tpruss_intc_initdata pruss_intc_initdata = PRUSS_INTC_INITDATA;
 
+  _prunum = getprunum(argc, argv);
+
   prussdrv_init ();
 
-  ret = prussdrv_open(PRU_EVTOUT_0);  // is this specific per PRU?
+  ret = prussdrv_open(PRU_EVTOUT_0);
   if (ret) {
     printf("prussdrv_open open failed\n");
     return (ret);

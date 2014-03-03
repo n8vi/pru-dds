@@ -23,9 +23,9 @@ static int loadwavetable()
     }
 }
   
-int main (void)
+int main (int argc, char **argv)
 {
-  pruinit();
+  pruinit(&argc, argv);
 
   if (loadwavetable()) {
     printf("Error loading wavetable\n");

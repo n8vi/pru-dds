@@ -3,15 +3,15 @@
 #include "util.h"
 #include "dds_bin.h"
 
-#define IRAM (PRUNUM+2)
+#define IRAM (prunum()+2)
 
-int main (void)
+int main (int argc, char **argv)
 {
-  pruinit();
+  pruinit(&argc, argv);
 
-  prussdrv_pru_disable ( PRUNUM );
+  prussdrv_pru_disable ( prunum() );
   prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)PRUcode, sizeof(PRUcode));
-  prussdrv_pru_enable ( PRUNUM );
+  prussdrv_pru_enable ( prunum() );
 
   return(0);
 }

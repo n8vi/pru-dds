@@ -9,14 +9,14 @@ int main (int argc, char **argv)
   double freqf;
   int ret;
 
+  pruinit(&argc, argv);
+
   if (argc != 2) {
     printf("Usage %s <frequency>\n", argv[0]);
     return 0;
     }
 
   freqf = atof(argv[1]);
-
-  pruinit();
 
   ret = setfreq(freqf);
 

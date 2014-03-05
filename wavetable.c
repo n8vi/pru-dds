@@ -126,9 +126,15 @@ int main (int argc, char **argv)
   pruinit(&argc, argv);
 
   if (argc != 2) {
-    fprintf(stderr, "Usage: %s <waveshape>\n", argv[0]);
+    fprintf(stderr, "\nUsage: %s <waveshape>\n", argv[0]);
     fprintf(stderr, "  <waveshape> can be a filename or one of sine, square, sawtooth, ramp\n");
-    fprintf(stderr, "  If the file exists it takes precedence\n");
+    fprintf(stderr, "  If the file exists it takes precedence over the built-in waveshape.\n");
+    fprintf(stderr, "  Files must contain raw 8-bit unsigned samples.  You can convert wave\n");
+    fprintf(stderr, "  and other such files with the excellent but seperate sox package.  BE\n");
+    fprintf(stderr, "  AWARE that the calling semantics (and expected sample format) for this\n");
+    fprintf(stderr, "  program may change in future releases.  If that occurs, this message\n");
+    fprintf(stderr, "  will be updated.\n\n");
+    return 0;
     }
 
   f = open(argv[1], O_RDONLY);

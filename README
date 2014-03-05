@@ -28,6 +28,14 @@ http://derekmolloy.ie/fixing-git-and-curl-certificates-problem-on-beaglebone-bla
 and while you're at it, fix your clock:
 http://derekmolloy.ie/automatically-setting-the-beaglebone-black-time-using-ntp/
 
+You can start up the DDS by simply typing "make test" (without the quotes)
+in the pru-dds directory.  Doing "make test" loads the DTBO, runs startdds
+to load the DDS code into the PRU, runs wavetable sine to load a sine table,
+then setfreq 10000 to set frequency to 10KHz.  You can change frequency with
+the setfreq program.  You can change waveshape with the wavetable program.
+You can try outputting a swept carrier with the sweep program.  All of these
+applications provide usage cues if you specify no command line arguments.
+
 Look for output from P9 31,29,30,28,42,27,41,25 (LSB to MSB) ready to
 feed into an R-2R or other DAC.  IF you modify config.pl to use PRU1
 instead of PRU0, look for output on P8 45,46,43,44,41,42,39,40. 

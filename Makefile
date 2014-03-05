@@ -11,6 +11,9 @@ ${BINS} : % : %.o util.o
 %.o : %.c config.h
 	${CC} -c -o $@ $<
 
+%.raw : %.wav
+	sox $< -b 8 -u -c 1 -r 4096 -t raw $@
+
 dds_bin.h: dds.p config.h
 	pasm -c $<
 

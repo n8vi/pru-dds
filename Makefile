@@ -1,7 +1,7 @@
 SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
-BINS=startdds setfreq getfreq sine square ramp sawtooth sweep
+BINS=startdds setfreq getfreq sweep wavetable
 
 all: ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
 
@@ -28,11 +28,12 @@ BB-BONE-PRUDDS-1-00A0.dts: config.pl genfile.pl
 
 install-dtbo: BB-BONE-PRUDDS-1-00A0.dtbo
 	cp BB-BONE-PRUDDS-1-00A0.dtbo /lib/firmware/
-	echo BB-BONE-PRUDDS-1 > /sys/devices/bone_capemgr.*/slots || echo 'Error installing DTBO (already installed?)'
+	@echo echo BB-BONE-PRUDDS-1 \> /sys/devices/bone_capemgr.*/slots
+	@echo BB-BONE-PRUDDS-1 > /sys/devices/bone_capemgr.*/slots || echo 'Error installing DTBO (already installed?)'
 
 test: install-dtbo all
 	sleep 1
-	./sine
+	./wavetable sine
 	./setfreq 10000
 	./startdds
 

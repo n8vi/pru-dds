@@ -15,7 +15,7 @@ ${BINS} : % : %.o util.o
 	sox $< -b 8 -u -c 1 -r 4096 -t raw $@
 
 dds_bin.h: dds.p config.h
-	pasm -c $<
+	pasm -V2 -c $<
 
 startdds.o: startdds.c config.h dds_bin.h
 	${CC} -c -o $@ $<

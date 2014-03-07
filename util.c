@@ -29,6 +29,26 @@ unsigned char *wavetable()
   return pruDataMem;
 }
 
+void wavetable2signed()
+{
+  int i, j;
+  char s;
+  unsigned char u;
+  unsigned char *utable;
+  char *stable;
+
+  utable = wavetable();
+  stable = (char *)utable;
+
+  for(j=0; j<TABLELEN; j++) {
+    u = utable[j];
+    i = u;
+    i -= 128;
+    s = i;
+    stable[j] = s;
+    }
+}
+
 int setddrint (int offset, int ddrint)
 {
   int mem_fd;

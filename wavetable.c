@@ -165,6 +165,10 @@ int main (int argc, char **argv)
     ret = loadramp();
     }
 
+#ifdef AMPLITUDE
+  wavetable2signed();
+#endif
+
   if (ret == -1) {
     fprintf(stderr, "Unable to load file %s, and no such built-in waveshape\n", argv[1]);
   } else if (ret) {

@@ -48,7 +48,7 @@ int setddrint (int offset, int ddrint)
     return -1;
     }
 
-  /* Store skiplen in DDR memory location */
+  /* Store int in DDR memory location */
   DDR_regaddr1 = ddrMem + OFFSET_DDR + offset;
 
   *(unsigned long*) DDR_regaddr1 = ddrint;
@@ -61,6 +61,50 @@ int setddrint (int offset, int ddrint)
   prussdrv_pru_enable ( _prunum );
 
   return(0);
+}
+
+int setddrchar (int offset, int ddrchar)
+{
+  int mem_fd;
+  void *ddrMem;
+  void *DDR_regaddr1;
+
+  /* open the device */
+  mem_fd = open("/dev/mem", O_RDWR);
+  if (mem_fd < 0) {
+    return -1;
+    }
+
+  /* map the DDR memory */
+  ddrMem = mmap(0, 0x0FFFFFFF, PROT_WRITE | PROT_READ, MAP_SHARED, mem_fd, DDR_BASEADDR);
+  if (ddrMem == NULL) {
+    close(mem_fd);
+    return -1;
+    }
+
+  /* Store char in DDR memory location */
+  DDR_regaddr1 = ddrMem + OFFSET_DDR + offset;
+
+  *(char *) DDR_regaddr1 = ddrchar;
+
+  // Reset PRU instruction pointer to get it to reload value from DDR
+  // perhaps there's a better way, but this works for me
+  // prussdrv_pru_reset() blows away whatever code is in the PRU, and we don't want that.
+
+  prussdrv_pru_disable ( _prunum );
+  prussdrv_pru_enable ( _prunum );
+
+  return(0);
+}
+
+int setdramchar (int offset, char dramchar)
+{
+  char *dramMem;
+
+  dramMem = (char *)(wavetable()+4096+offset);
+  *dramMem = dramchar;
+
+  return 0;
 }
 
 int setdramint (int offset, int dramint)
@@ -100,12 +144,65 @@ unsigned long getddrint (int offset)
   return ret;
 }
 
+unsigned long getddrchar (int offset)
+{
+  int mem_fd;
+  void *ddrMem;
+  void *DDR_regaddr1;
+  int ret;
+
+  /* open the device */
+  mem_fd = open("/dev/mem", O_RDWR);
+  if (mem_fd < 0) {
+    return -1;
+    }
+
+  /* map the DDR memory */
+  ddrMem = mmap(0, 0x0FFFFFFF, PROT_WRITE | PROT_READ, MAP_SHARED, mem_fd, DDR_BASEADDR);
+  if (ddrMem == NULL) {
+    close(mem_fd);
+    return -1;
+    }
+
+  DDR_regaddr1 = ddrMem + OFFSET_DDR + offset;
+
+  ret = *(char*) DDR_regaddr1;
+  close(mem_fd);
+  return ret;
+}
+
+int getdramchar (int offset)
+{
+  char *dramMem;
+
+  dramMem = (char *)(wavetable()+4096+offset);
+  return *dramMem;
+}
+
 int getdramint (int offset)
 {
   int *dramMem;
 
   dramMem = (int *)(wavetable()+4096+offset);
   return *dramMem;
+}
+
+int setamp(char amp)
+{
+  #ifdef REALTIMEFREQ
+    return(setdramchar(5, amp));
+  #else
+    return(setddrchar(5, amp));
+  #endif
+}
+
+int getamp(char amp)
+{
+  #ifdef REALTIMEFREQ
+    return(getdramchar(5));
+  #else
+    return(getddrchar(5));
+  #endif
 }
 
 int setskip (double skiplenf)

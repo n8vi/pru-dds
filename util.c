@@ -37,7 +37,7 @@ void wavetable2signed()
   unsigned char *utable;
   char *stable;
 
-  utable = wavetable();
+  utable = (unsigned char *)wavetable();
   stable = (char *)utable;
 
   for(j=0; j<TABLELEN; j++) {
@@ -83,7 +83,7 @@ int setddrint (int offset, int ddrint)
   return(0);
 }
 
-int setddrchar (int offset, int ddrchar)
+int setddrchar (int offset, char ddrchar)
 {
   int mem_fd;
   void *ddrMem;
@@ -164,12 +164,12 @@ unsigned long getddrint (int offset)
   return ret;
 }
 
-unsigned long getddrchar (int offset)
+char getddrchar (int offset)
 {
   int mem_fd;
   void *ddrMem;
   void *DDR_regaddr1;
-  int ret;
+  char ret;
 
   /* open the device */
   mem_fd = open("/dev/mem", O_RDWR);
@@ -207,21 +207,25 @@ int getdramint (int offset)
   return *dramMem;
 }
 
-int setamp(char amp)
+int setamp(int amp)
 {
-  #ifdef REALTIMEFREQ
-    return(setdramchar(5, amp));
+  #ifdef REALTIMEAMP
+    // return(setdramchar(4, amp));
+    return(setdramint(4, amp));
   #else
-    return(setddrchar(5, amp));
+    // return(setddrchar(4, amp));
+    return(setddrint(4, amp));
   #endif
 }
 
-int getamp(char amp)
+int getamp()
 {
-  #ifdef REALTIMEFREQ
-    return(getdramchar(5));
+  #ifdef REALTIMEAMP
+    // return(getdramchar(4));
+    return(getdramint(4));
   #else
-    return(getddrchar(5));
+    // return(getddrchar(4));
+    return(getddrint(4));
   #endif
 }
 

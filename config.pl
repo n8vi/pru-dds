@@ -27,3 +27,10 @@ $realtimefreq = 1;
 # glitch-free frequency changes (in exchange for lower max frequency)
 # rerun startdds and setfreq after changing this
 # you probably want this set to 1 if you intend to use the "sweep" program
+
+$amplitude = 1;
+# At the expense of max frequency, this allows you to set amplitude
+
+$realtimeamp = 1;
+# glitch-free amplitude changes (in exchange for lower max frequency)
+# rerun startdds and setfreq after changing this

@@ -166,7 +166,8 @@ int main (int argc, char **argv)
     }
 
 #ifdef AMPLITUDE
-  wavetable2signed();
+//  wavetable2signed();
+// This has to happen in the DDS
 #endif
 
   if (ret == -1) {

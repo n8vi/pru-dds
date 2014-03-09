@@ -21,7 +21,26 @@ if ($realtimefreq) {
   $defrealtimefreq = '';
   }
 
+if ($amplitude) {
+  $defamplitude = "#define AMPLITUDE";
+  $cpucycles += 7; # 10 - 3 for normal LCBO to r30
+  }
+
+if ($realtimeamp) {
+  if (!$amplitude) {
+    die "\$realtimeamp requires \$amplitude\n";
+    }
+  $defrealtimeamp = "#define REALTIMEAMP";
+  $cpucycles += 3;
+  }
+
 if ($ARGV[0] eq '_config_h') {
+
+  $samprate = $clockrate / $cpucycles;
+  $nyquist = $samprate / 2;
+
+  printf "\n\nCurrent configuration allows for $samprate samples per second (nyquist $nyquist)\n";
+
   open($configh, ">config.h");
 
   print $configh <<ECONFIGH;
@@ -40,6 +59,8 @@ if ($ARGV[0] eq '_config_h') {
 #define DDSBITS ($ddsbits)
 #define DDSMAX ($ddsmax)
 $defrealtimefreq
+$defamplitude
+$defrealtimeamp
 
 #endif
 ECONFIGH

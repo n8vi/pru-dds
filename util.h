@@ -11,5 +11,7 @@ double getfreq();
 int prunum();
 int pruinit (int *argc, char **argv);
 void wavetable2signed(void);
+int setamp(int amp);
+int getamp();
 
 #endif

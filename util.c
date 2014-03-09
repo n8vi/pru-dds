@@ -209,6 +209,9 @@ int getdramint (int offset)
 
 int setamp(int amp)
 {
+  if (amp < -127 || amp > 127) {
+    return -1;
+     }
   #ifdef REALTIMEAMP
     // return(setdramchar(4, amp));
     return(setdramint(4, amp));

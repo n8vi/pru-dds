@@ -1,7 +1,7 @@
 SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
-BINS=startdds setfreq setamp getfreq getamp sweep wavetable
+BINS=startdds setfreq setamp getfreq getamp sweep wavetable wobbulate
 
 all: ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
 

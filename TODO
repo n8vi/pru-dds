@@ -23,3 +23,6 @@ whatever.
 
 I'll probably add a 'make install' target after I rename the binaries
 something that's likely to be unique.  ('dds_sine', 'dds_square', etc)
+
++ rename project to "pru-dds" (there's nothing specifically 8-bit about it
+  any more) [DONE]

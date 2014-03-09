@@ -38,6 +38,7 @@ test: install-dtbo all
 	sleep 1
 	./wavetable sine
 	./setfreq 10000
+	./setamp 127
 	./startdds
 
 clean:

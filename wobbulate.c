@@ -19,6 +19,7 @@
 // SOFTWARE.
 
 #include <stdio.h>
+#include <unistd.h>
 #include <math.h>
 #include <prussdrv.h>
 #include <pruss_intc_mapping.h>
@@ -39,10 +40,12 @@ int main(int argc, char **argv)
   pruinit(&argc, argv);
 
   while(1) {
-    for (f=0; f<2*pi; f+=.0005) {
+    for (f=0; f<2*pi; f+=.02) {
       ampf = sin(f)*127;
       amp = (int) ampf;
       setamp(amp);
+      usleep(10);
       }
     }
 }
+

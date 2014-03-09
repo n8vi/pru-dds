@@ -342,6 +342,11 @@ int prunum()
   return _prunum;
 }
 
+int otherpru()
+{
+  return 1-_prunum;
+}
+
 int pruinit (int *argc, char **argv)
 {
   int ret;

@@ -29,6 +29,7 @@ unsigned char *wavetable();
 int setfreq(double freq);
 double getfreq();
 int prunum();
+int otherpru();
 int pruinit (int *argc, char **argv);
 void wavetable2signed(void);
 int setamp(int amp);

@@ -1,28 +1,43 @@
-I'm presently comtemplating dropping half of the wavetable so it's only
-4ksam in size, so I can use the rest of PRU memory for configuration,
-for example, passing in skiplen without having to restart the code.
-Doing this will likely lower the samplerate more, but will allow for
-instantaneous frequency changes with no glitches under (main CPU)
-software control. 
-[DONE, CONFIGURABLE EVEN]
 
-Also on the horizon, using the PRU's MAC to allow for amplitude modification,
-which will be another integer we pass through PRU DataRam as we do with
-skiplen.  Not sure if we can do multiplication of signed integers, but that
-would be the easiest way to implement a cosine-shaped BPSK transmitter.  I
-can then, of course, write a BPSK transmitter that runs in the second PRU.
-Or an ASK transmitter, or AM, or QAM, or whatever.
-I may try writing this code using the hardware MAC, and write another 
-version using prosthaphaeresis, then compare the two.
-[THE ABILITY TO CHANGE AMPLITUDE WILL BE THE IMMEDIATE NEXT PROJECT]
++ A program for the second PRU that modulates the first PRU with raised
+  cosine filtered CW, loaded from a text file or stdin.
 
-I may write a program for the second PRU that FMs the first PRU.  And
-one that AMs it.  And a PSK one.  The first two could theoretically
-take wave files as input and the third could take text from stdin or 
-whatever.
++ A program for the second PRU that modulates the first PRU with varicode
+  coded raised cosine filtered 31.25 BPSK, loaded from the keyboard or stdin.
 
-I'll probably add a 'make install' target after I rename the binaries
-something that's likely to be unique.  ('dds_sine', 'dds_square', etc)
++ A program for the second PRU that modulates the first PRU with AM, loaded
+  from a file of raw samples, in a sort of circular buffer, that when 
+  the PRU has read in and output half of it's buffer, it sends an interrupt
+  to the main CPU requesting that half be filled with new samples.
+
++ A program for the second PRU that modulates the first PRU with FM, loaded
+  from a file of raw samples, in a sort of circular buffer, that when 
+  the PRU has read in and output half of it's buffer, it sends an interrupt
+  to the main CPU requesting that half be filled with new samples.
+
++ Add a 'make install' target after binary list stabilizes (I may get rid of
+  programs like wobbulate, for example)
+
++ Throw a quick schematic in the source directory for a simple R-2R filter.
+
+=== Below are things that are done ===
+
++ I'm presently comtemplating dropping half of the wavetable so it's only
+  4ksam in size, so I can use the rest of PRU memory for configuration,
+  for example, passing in skiplen without having to restart the code.
+  Doing this will likely lower the samplerate more, but will allow for
+  instantaneous frequency changes with no glitches under (main CPU)
+  software control.  [DONE, CONFIGURABLE EVEN]
+
++ Also on the horizon, using the PRU's MAC to allow for amplitude modification,
+  which will be another integer we pass through PRU DataRam as we do with
+  skiplen.  Not sure if we can do multiplication of signed integers, but that
+  would be the easiest way to implement a cosine-shaped BPSK transmitter.  I
+  can then, of course, write a BPSK transmitter that runs in the second PRU.
+  Or an ASK transmitter, or AM, or QAM, or whatever.
+  I may try writing this code using the hardware MAC, and write another 
+  version using prosthaphaeresis, then compare the two. [DONE, Using hardware MAC]
 
 + rename project to "pru-dds" (there's nothing specifically 8-bit about it
   any more) [DONE]
+

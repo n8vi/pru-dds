@@ -22,6 +22,7 @@ SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
 BINS=startdds setfreq setamp getfreq getamp sweep wavetable wobbulate
+PREFIX?=/usr/local
 
 all: ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
 
@@ -53,6 +54,12 @@ install-dtbo: BB-BONE-PRUDDS-1-00A0.dtbo
 	cp BB-BONE-PRUDDS-1-00A0.dtbo /lib/firmware/
 	@echo echo BB-BONE-PRUDDS-1 \> /sys/devices/bone_capemgr.*/slots
 	@echo BB-BONE-PRUDDS-1 > /sys/devices/bone_capemgr.*/slots || echo 'Error installing DTBO (already installed?)'
+
+# To be enabled when binary names have stabilized (wobbulate, for example, may go away)
+#
+# install: install-dtbo all
+#        install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
+#        install -m 0755 $(BINS) $(DESTDIR)$(PREFIX)/bin
 
 test: install-dtbo all
 	sleep 1

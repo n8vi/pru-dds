@@ -21,7 +21,7 @@
 SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
-BINS=startdds setfreq setamp getfreq getamp sweep wavetable wobbulate
+BINS=startdds setfreq setamp getfreq getamp sweep wavetable startwobbulator
 PREFIX?=/usr/local
 
 all: ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
@@ -34,6 +34,12 @@ ${BINS} : % : %.o util.o
 
 %.raw : %.wav
 	sox $< -b 8 -u -c 1 -r 4096 -t raw $@
+
+wobbulator_bin.h: wobbulator.p config.h
+	pasm -c $<
+
+startwobbulator.o: startwobbulator.c config.h wobbulator_bin.h
+	${CC} -c -o $@ $<
 
 dds_bin.h: dds.p config.h
 	pasm -V2 -c $<

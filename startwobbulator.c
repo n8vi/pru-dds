@@ -30,7 +30,7 @@ int main (int argc, char **argv)
 {
   pruinit(&argc, argv);
 
-  printf("starting modulator on PRU %d\n", otherpru());
+  printf("starting wobbulator on PRU %d\n", otherpru());
 
   prussdrv_pru_disable ( otherpru() );
   prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)PRUcode, sizeof(PRUcode));

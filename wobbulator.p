@@ -45,28 +45,31 @@ START:
 	MOV	R7, 0x00002000 // The WAVETABLE
 	MOV	R8, 0xFFFFFFFF
 	MOV	R9, 4095
+	MOV	R12, 4096
 
+	MOV	R0, 0
+	MOV	R1, 0
+	MOV	R2, 0
+	MOV	R3, 0
+	MOV	R4, 0
 
 SPIN:
-	ADD	R2, R2, 1
-	AND	R2, R2, R9
-	MOV	R0, 0
-	LBBO	R0.b0, R7, R2, 1
-	SUB	R0, R0, 128
-	// LSR	R0, R0, 1
-	// AND	R0, R0, 127    // R14 = R14 & 0x0fff
-	SBBO	R0, R6, 4, 4	 // [00003000 + 4] = R12
+        LBBO    r3, r12, 0, 4 // Load skipcount from DRAM	// 3
+	ADD	R2, R2, R3					// 1		
+	MOV	R1, R2						// 1
+	LSR	R1, R1, TABLEPREC				// 1
 
-	MOV	R5, 1000
-DEL:
-	SUB	R5, R5, 1
-	QBNE	DEL, R5, 0
+	MOV	R0, 0						// 1
+	LBBO	R0.b0, R7, R1, 1				// 3
+	SUB	R0, R0, 128					// 1
 
-	QBA	SPIN
+	SBBO	R0, R6, 4, 4	 				// 3
 
-        // Send notification to Host for program completion
-        // MOV     r31.b0, PRU0_ARM_INTERRUPT+16
+	MOV	R0, R0
+	MOV	R0, R0
+	MOV	R0, R0
+	MOV	R0, R0
+	MOV	R0, R0
 
-        // Halt the processor
-        // HALT
-
+	QBA	SPIN						// 1
+							//	== 15

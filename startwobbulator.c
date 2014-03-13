@@ -33,7 +33,7 @@ int main (int argc, char **argv)
   printf("starting wobbulator on PRU %d\n", otherpru());
 
   prussdrv_pru_disable ( otherpru() );
-  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)PRUcode, sizeof(PRUcode));
+  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)wobbulator, sizeof(wobbulator));
   prussdrv_pru_enable ( otherpru() );
 
   return(0);

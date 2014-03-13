@@ -33,7 +33,7 @@ int main (int argc, char **argv)
   printf("starting DDS on PRU %d\n", prunum());
 
   prussdrv_pru_disable ( prunum() );
-  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)PRUcode, sizeof(PRUcode));
+  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)dds, sizeof(dds));
   prussdrv_pru_enable ( prunum() );
 
   return(0);

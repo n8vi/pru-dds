@@ -32,23 +32,20 @@ ${BINS} : % : %.o util.o
 %.o : %.c config.h
 	${CC} -c -o $@ $<
 
-%.raw : %.wav
-	sox $< -b 8 -u -c 1 -r 4096 -t raw $@
-
-wobbulator_bin.h: wobbulator.p config.h
-	pasm -c $<
+%_bin.h: %.p config.h
+	pasm -V2 -C$(basename $(notdir $<)) -c $<
 
 startwobbulator.o: startwobbulator.c config.h wobbulator_bin.h
 	${CC} -c -o $@ $<
-
-dds_bin.h: dds.p config.h
-	pasm -V2 -c $<
 
 startdds.o: startdds.c config.h dds_bin.h
 	${CC} -c -o $@ $<
 
 %.dtbo: %.dts
 	dtc -O dtb -o $@ -b 0 -@ $<
+
+%.raw : %.wav
+	sox $< -b 8 -u -c 1 -r 4096 -t raw $@
 
 config.h: config.pl genfile.pl
 	perl genfile.pl _config_h 

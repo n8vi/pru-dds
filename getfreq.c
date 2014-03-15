@@ -26,7 +26,7 @@
 
 int main (int argc, char **argv)
 {
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, MAINPRU);
 
   printf("Current frequency: %0.1f\n", getfreq());
 

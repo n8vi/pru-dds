@@ -34,7 +34,7 @@ int main (int argc, char **argv)
   exit(0);
 #endif
 
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, MAINPRU);
 
   if (argc != 2) {
     printf("Usage %s <amplitude>\n", argv[0]);

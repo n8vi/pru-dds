@@ -55,7 +55,7 @@ static int loadsine()
   if (table) {
     for (i=0; i<TABLELEN; i++) {
       f = sin(2*PI*i/TABLELEN);
-      f = ((DDSMAX/2)-.5)*f+(DDSMAX/2);
+      f = ((DDSMAX/2)-1)*f+(DDSMAX/2);
       table[i] = (unsigned int)f;
       }
     return 0;
@@ -143,7 +143,7 @@ static int loadramp()
 int main (int argc, char **argv)
 {
   int f, ret = -2;
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, MAINPRU);
 
   if (argc != 2) {
     fprintf(stderr, "\nUsage: %s <waveshape>\n", argv[0]);

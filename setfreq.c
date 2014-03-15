@@ -29,7 +29,7 @@ int main (int argc, char **argv)
   double freqf;
   int ret;
 
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, MAINPRU);
 
   if (argc != 2) {
     printf("Usage %s <frequency>\n", argv[0]);

@@ -25,11 +25,11 @@
 
 int main (int argc, char **argv)
 {
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, AUXPRU);
 
-  printf("Halting PRU %d\n", prunum());
+  printf("Halting PRU %d\n", mypru());
 
-  prussdrv_pru_disable ( prunum() );
+  prussdrv_pru_disable ( mypru() );
 
   return(0);
 }

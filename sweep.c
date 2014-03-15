@@ -31,7 +31,7 @@ int main (int argc, char **argv)
   int usecs;
   double lowfreq, hifreq;
 
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, MAINPRU);
 
   if (argc != 4) {
     printf ("Usage: %s <lowfreq> <hifreq> <usecs>\n  Where <usecs> is the number of microseconds to delay between frequency changes\n", argv[0]);

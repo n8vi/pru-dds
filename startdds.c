@@ -24,17 +24,17 @@
 #include "util.h"
 #include "dds_bin.h"
 
-#define IRAM (prunum()+2)
+#define IRAM (mainpru()+2)
 
 int main (int argc, char **argv)
 {
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, MAINPRU);
 
-  printf("starting DDS on PRU %d\n", prunum());
+  printf("starting DDS on PRU %d\n", mainpru());
 
-  prussdrv_pru_disable ( prunum() );
+  prussdrv_pru_disable ( mainpru() );
   prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)dds, sizeof(dds));
-  prussdrv_pru_enable ( prunum() );
+  prussdrv_pru_enable ( mainpru() );
 
   return(0);
 }

@@ -25,12 +25,17 @@
 #define DDR_BASEADDR     0x80000000
 #define OFFSET_DDR       0x00001000
 
+#define MAINPRU 0
+#define AUXPRU 1
+
 unsigned char *wavetable();
 int setfreq(double freq);
 double getfreq();
-int prunum();
+int mypru();
 int otherpru();
-int pruinit (int *argc, char **argv);
+int mainpru();
+int auxpru();
+int pruinit (int *argc, char **argv, int whichpru);
 void wavetable2signed(void);
 int setamp(int amp);
 int getamp();

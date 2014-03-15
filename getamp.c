@@ -30,7 +30,7 @@ int main (int argc, char **argv)
   fprintf(stderr, "$amplitude option not configured at compile time, no amplitude capability\n");
   exit(0);
 #endif
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, MAINPRU);
 
   printf("Current amplitude: %d\n", getamp());
 

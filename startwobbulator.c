@@ -24,17 +24,17 @@
 #include "util.h"
 #include "wobbulator_bin.h"
 
-#define IRAM (otherpru()+2)
+#define IRAM (mypru()+2)
 
 int main (int argc, char **argv)
 {
-  pruinit(&argc, argv);
+  pruinit(&argc, argv, AUXPRU);
 
-  printf("starting wobbulator on PRU %d\n", otherpru());
+  printf("starting wobbulator on PRU %d\n", mypru());
 
-  prussdrv_pru_disable ( otherpru() );
+  prussdrv_pru_disable ( mypru() );
   prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)wobbulator, sizeof(wobbulator));
-  prussdrv_pru_enable ( otherpru() );
+  prussdrv_pru_enable ( mypru() );
 
   return(0);
 }

@@ -33,16 +33,17 @@
 #include "util.h"
 #include "config.h"
 
-static int _prunum;
+static int _mypru;
+static int _mainpru;
 
 unsigned char *wavetable()
 {
   unsigned char *pruDataMem = (unsigned char *)0;
 
   //Initialize pointer to PRU data memory
-  if (_prunum == 0) {
+  if (_mainpru == 0) {
     prussdrv_map_prumem (PRUSS0_PRU0_DATARAM, (void**)&pruDataMem);
-  } else if (_prunum == 1) {
+  } else if (_mainpru == 1) {
     prussdrv_map_prumem (PRUSS0_PRU1_DATARAM, (void**)&pruDataMem);
     }
 
@@ -97,8 +98,8 @@ int setddrint (int offset, int ddrint)
   // perhaps there's a better way, but this works for me
   // prussdrv_pru_reset() blows away whatever code is in the PRU, and we don't want that.
 
-  prussdrv_pru_disable ( _prunum );
-  prussdrv_pru_enable ( _prunum );
+  prussdrv_pru_disable ( _mypru );
+  prussdrv_pru_enable ( _mypru );
 
   return(0);
 }
@@ -131,8 +132,8 @@ int setddrchar (int offset, char ddrchar)
   // perhaps there's a better way, but this works for me
   // prussdrv_pru_reset() blows away whatever code is in the PRU, and we don't want that.
 
-  prussdrv_pru_disable ( _prunum );
-  prussdrv_pru_enable ( _prunum );
+  prussdrv_pru_disable ( _mypru );
+  prussdrv_pru_enable ( _mypru );
 
   return(0);
 }
@@ -302,9 +303,8 @@ double getfreq()
   return ret;
 }
 
-int getprunum(int *argc, char **argv)
+void getprunum(int *argc, char **argv, int whichpru)
 {
-  int prunum;
   char *prustr = NULL;
   int i,j;
 
@@ -327,32 +327,53 @@ int getprunum(int *argc, char **argv)
     }
 
   if (! prustr) {
-    return PRUNUM;
+    _mainpru = MAINPRUNUM;
+    if (whichpru) {
+      _mypru = 1-_mainpru;
+    } else {
+      _mypru = _mainpru;
+      }
+    return;
     }
-  prunum = atoi(prustr);
-  if (prunum != 0 && prunum != 1) {
-    printf("ERROR: Invalid PRU specified (%d)\n", prunum);
+  _mypru = atoi(prustr);
+  if (_mypru != 0 && _mypru != 1) {
+    printf("ERROR: Invalid PRU specified (%d)\n", _mypru);
     exit(0);
     }
-  return prunum;
+  if (whichpru) {
+    _mainpru = 1-_mypru;
+  } else {
+    _mainpru = _mypru;
+    }
+    
 }
 
-int prunum()
+int mypru()
 {
-  return _prunum;
+  return _mypru;
 }
 
 int otherpru()
 {
-  return 1-_prunum;
+  return 1-_mypru;
 }
 
-int pruinit (int *argc, char **argv)
+int mainpru()
+{
+  return _mainpru;
+}
+
+int auxpru()
+{
+  return 1-_mainpru;
+}
+
+int pruinit (int *argc, char **argv, int whichpru)
 {
   int ret;
   tpruss_intc_initdata pruss_intc_initdata = PRUSS_INTC_INITDATA;
 
-  _prunum = getprunum(argc, argv);
+  getprunum(argc, argv, whichpru);
 
   prussdrv_init ();
 

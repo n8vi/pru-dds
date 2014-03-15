@@ -39,7 +39,7 @@ $clockrate = 200000000;
 # CPU cycles per second of the PRU.
 # This shouldn't change unless youre not on a beaglebone black
 
-$prunum = 1;
+$mainprunum = 1;
 # Which PRU are we to run the DDS code on by default?
 # rerun startdds after changing this
 

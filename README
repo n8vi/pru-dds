@@ -39,7 +39,13 @@ applications provide usage cues if you specify no command line arguments.
 Look for output on P8 45,46,43,44,41,42,39,40 (LSB to MSB) ready to
 feed into an R-2R or other DAC.  If you modify config.pl to use PRU0
 instead of PRU1, look for output on P9 31,29,30,28,42,27,41,25.
-Be aware that since in my experience uninstalling a dtbo requires a
+
+Please note - I'm specifying the pins in LSB-to-MSB order!  This is 
+because if you choose to configure for less pins, the LSB stays on the 
+same pin, while the MSB ends up on a different pin.  For example a four-pin
+configuration on PRU1 would be P8 pins 45,46,43, and 44.
+
+Also be aware that since in my experience uninstalling a dtbo requires a
 reboot anyway, I make all variants of my dtbo have the same name (which
 is probably very very bad practice.  I'll deal with that if someone finds a
 legitimate reason to complain about it.

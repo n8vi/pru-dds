@@ -21,7 +21,7 @@
 SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
-BINS=setfreq setamp getfreq getamp sweep wavetable haltpru startwobbulator startdds
+BINS=setfreq setamp getfreq getamp sweep wavetable haltpru startwobbulator startdds streamam
 PREFIX?=/usr/local
 
 all: ${BINS} BB-BONE-PRUDDS-1-00A0.dtbo
@@ -41,11 +41,19 @@ startwobbulator.o: startwobbulator.c config.h wobbulator_bin.h
 startdds.o: startdds.c config.h dds_bin.h
 	${CC} -c -o $@ $<
 
+streamam.o: streamam.c config.h am_bin.h
+	${CC} -c -o $@ $<
+
 %.dtbo: %.dts
 	dtc -O dtb -o $@ -b 0 -@ $<
 
+#to load sound samples into the DDS wavetable
 %.raw : %.wav
 	sox $< -b 8 -u -c 1 -r 4096 -t raw $@
+
+# to test the AM modulator
+%.raw : %.mp3
+	sox $< -b 8 -u -c 1 -r 8000 -t raw $@
 
 config.h: config.pl genfile.pl
 	perl genfile.pl _config_h 

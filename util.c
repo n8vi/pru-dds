@@ -50,6 +50,21 @@ unsigned char *wavetable()
   return pruDataMem;
 }
 
+unsigned char *mydram()
+{
+  unsigned char *pruDataMem = (unsigned char *)0;
+
+  //Initialize pointer to PRU data memory
+  if (_mypru == 0) {
+    prussdrv_map_prumem (PRUSS0_PRU0_DATARAM, (void**)&pruDataMem);
+  } else if (_mypru == 1) {
+    prussdrv_map_prumem (PRUSS0_PRU1_DATARAM, (void**)&pruDataMem);
+    }
+
+  return pruDataMem;
+}
+
+
 void wavetable2signed()
 {
   int i, j;

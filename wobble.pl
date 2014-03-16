@@ -26,7 +26,7 @@ while(1) {
   print "wobble\n";
   for ($i=0; $i<2*$pi; $i+=0.01) {
     $freqofs = sin($i)*500;
-    $freq = 1850000+$freqofs;
+    $freq = 830000+$freqofs;
     `./setfreq $freq`;
     }
   }

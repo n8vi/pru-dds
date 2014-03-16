@@ -29,6 +29,7 @@
 #define AUXPRU 1
 
 unsigned char *wavetable();
+unsigned char *mydram();
 int setfreq(double freq);
 double getfreq();
 int mypru();

@@ -25,18 +25,20 @@
 #include <fcntl.h>
 #include "util.h"
 #include "am_bin.h"
+#include <string.h>
 
 
 #define IRAM (mypru()+2)
 
 int main (int argc, char **argv)
 {
-  int f;
-  int i;
+  // int f;
+  // int i;
   unsigned char *buf;
 
   pruinit(&argc, argv, AUXPRU);
 
+/*
   if (argc != 2) {
     fprintf(stderr, "Usage: %s <somefile.raw>\n", argv[0]);
     return 0;
@@ -48,10 +50,13 @@ int main (int argc, char **argv)
     fprintf(stderr, "Cannot open %s\n", argv[1]);
     return 0;
     }
+*/
 
   buf = mydram();
 
-  read(f, buf, 8192);
+  // read(f, buf, 8192);
+
+  memset(buf, 127, 8192);
     
   printf("starting AM Modulator on PRU %d\n", mypru());
 
@@ -59,6 +64,7 @@ int main (int argc, char **argv)
   prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)am, sizeof(am));
   prussdrv_pru_enable ( mypru() );
 
+/*
   prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
 
   while (1) {
@@ -76,6 +82,7 @@ int main (int argc, char **argv)
        }
      prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
     }
+*/
 
   return(0);
 }

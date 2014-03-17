@@ -53,15 +53,17 @@ START:
 	MOV	r5, 8191
 
 	MOV	R7, 4096
+	MOV	R8, 127
 
 SPIN:
-	MOV	r4, 12491					// 1
+	MOV	r4, 12489					// 1
 DELAY:
 	SUB	r4, r4, 1					// 12491
 	QBNE	DELAY, r4, 0					// 12491
-	// MOV	r0, r0						// 1
+	MOV	r0, r0						// 1
 	MOV	r0, 0						// 1
 	LBCO	r0, CONST_PRUDRAM, r1, 1			// 3
+	SBCO	r8, CONST_PRUDRAM, r1, 1			// 3
 	LSR	r0, r0, 1					// 1
 	SBBO	r0, R6, 4, 4					// 3
 	MOV	r2, r1						// 1

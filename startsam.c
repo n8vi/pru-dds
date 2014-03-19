@@ -24,7 +24,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "util.h"
-#include "am_bin.h"
+#include "sam_bin.h"
 #include <string.h>
 
 
@@ -40,10 +40,10 @@ int main (int argc, char **argv)
 
   memset(buf, 127, 8192);
     
-  printf("starting AM Modulator on PRU %d\n", mypru());
+  printf("starting 28.5 Msam/s sampler on PRU %d\n", mypru());
 
   prussdrv_pru_disable ( mypru() );
-  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)am, sizeof(am));
+  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)sam, sizeof(sam));
   prussdrv_pru_enable ( mypru() );
 
   return(0);

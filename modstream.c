@@ -27,9 +27,6 @@
 #include "util.h"
 #include <string.h>
 
-
-#define IRAM (mypru()+2)
-
 int main (int argc, char **argv)
 {
   int f;
@@ -53,13 +50,6 @@ int main (int argc, char **argv)
   buf = mydram();
 
   read(f, buf, 8192);
-/*    
-  printf("starting AM Modulator on PRU %d\n", mypru());
-
-  prussdrv_pru_disable ( mypru() );
-  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)am, sizeof(am));
-  prussdrv_pru_enable ( mypru() );
-*/
 
   prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
 

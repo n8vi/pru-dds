@@ -18,34 +18,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <prussdrv.h>
-#include <pruss_intc_mapping.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include "util.h"
-#include "am_bin.h"
-#include <string.h>
+#include "config.h"
 
+.origin 0
+.entrypoint START
 
-#define IRAM (mypru()+2)
+// #define CONST_PRUCFG    C4
+// #define CONST_PRUDRAM   C24
+#define CTBIR_0         0x22020
+// #define CTPPR_1         0x2202C
 
-int main (int argc, char **argv)
-{
-  unsigned char *buf;
+#define CONST_PRUDRAM	C24
 
-  pruinit(&argc, argv, AUXPRU);
+#define PRU0_ARM_INTERRUPT      19
 
-  buf = mydram();
+START:  
+	MOV	r0, 0
+	MOV	r1, CTBIR_0
+	SBBO	r0,r1,0,4     // set up C24 = &PRU0_DRAM
 
-  memset(buf, 127, 8192);
-    
-  printf("starting AM Modulator on PRU %d\n", mypru());
+	MOV	r4, 4096
+	MOV	r5, 8191
+	MOV	r2, 0
+	MOV	r1, 0
 
-  prussdrv_pru_disable ( mypru() );
-  prussdrv_pru_write_memory(IRAM, 0, (unsigned int *)am, sizeof(am));
-  prussdrv_pru_enable ( mypru() );
-
-  return(0);
-}
-
+SPIN:
+	LBCO	r30.b0, CONST_PRUDRAM, r1, 1		//  3  1
+	ADD	r1, r1, 1				//  1  4
+	AND	r1, r1, r5				//  1  5
+	ADD	r2, r2, 1				//  1  6
+	AND	r2, r2, r5				//  1  7
+	LBCO	r30.b0, CONST_PRUDRAM, r2, 1		//  3  8
+	XOR	r3, r2, r1				//  1  11
+	QBGE	INT, r3, r4			// 1  1  =  3  12
+	QBA	NOINT				// 2  x == 14
+INT:
+ 	MOV	r31.b0, PRU0_ARM_INTERRUPT+16	// x  2
+NOINT:
+	QBA	SPIN				// 3  3

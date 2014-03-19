@@ -36,6 +36,14 @@ the setfreq program.  You can change waveshape with the wavetable program.
 You can try outputting a swept carrier with the sweep program.  All of these
 applications provide usage cues if you specify no command line arguments.
 
+If you want to, for example, output AM-modulated RF, try putting an mp3 in
+the source directory, say somefile.mp3, then type "make somefile.raw" (without
+quotes), then "./startdds", "./setfreq 1000000", "./startam", and finally
+"./modstream somefile.raw" (replacing "somefile" with the actual file name).
+
+Playing with things is recommended, because I'm not done organising enough
+to document properly yet.
+
 Look for output on P8 45,46,43,44,41,42,39,40 (LSB to MSB) ready to
 feed into an R-2R or other DAC.  If you modify config.pl to use PRU0
 instead of PRU1, look for output on P9 31,29,30,28,42,27,41,25.

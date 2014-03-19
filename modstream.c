@@ -30,7 +30,7 @@
 int main (int argc, char **argv)
 {
   int f;
-  int i;
+  int i1=0, i2=0;
   unsigned char *buf;
 
   pruinit(&argc, argv, AUXPRU);
@@ -54,15 +54,21 @@ int main (int argc, char **argv)
   prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
 
   while (1) {
-     i = prussdrv_pru_wait_event (PRU_EVTOUT_0);
+     i1 = prussdrv_pru_wait_event (PRU_EVTOUT_0);
+      if (i1 != i2+1 && i2 != 0) {
+        fprintf(stderr, "Lost even interrupt %d->%d\n", i2, i1);
+        exit(0);
+        }
      prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
-     printf("%d: loading 4k\n", i);
      if (!read(f, buf, 4096)) {
        return 0;
        }
-     i = prussdrv_pru_wait_event (PRU_EVTOUT_0);
+     i2 = prussdrv_pru_wait_event (PRU_EVTOUT_0);
+      if (i2 != i1+1) {
+        fprintf(stderr, "Lost odd interrupt %d->%d\n", i1, i2);
+        exit(0);
+        }
      prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
-     printf("%d: loading another 4k\n", i);
      if (!read(f, buf+4096, 4096)) {
        return 0;
        }

@@ -54,6 +54,9 @@ $(PRUOBJS) : start%.o : start%.c config.h %_bin.h
 %.raw : %.mp3
 	sox $< -b 8 -u -c 1 -r 8000 -t raw $@
 
+%.sam : %.wav
+	sox $< -b 8 -u -c 1 -r 28571429 -t raw $@
+
 config.h: config.pl genfile.pl
 	perl genfile.pl _config_h 
 

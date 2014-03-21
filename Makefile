@@ -23,8 +23,8 @@ PREFIX?=/usr/local
 SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
-PRUBINS=startwobbulator startdds startam startsam
-CPUBINS=setfreq setamp getfreq getamp sweep wavetable haltpru modstream 
+PRUBINS=startwobbulator startdds startam startsam startdsb
+CPUBINS=setfreq setamp getfreq getamp sweep wavetable haltpru modstream testint
 BINS=$(CPUBINS) $(PRUBINS)
 PRUOBJS=$(patsubst %,%.o,$(PRUBINS))
 

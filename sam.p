@@ -43,237 +43,29 @@ START:
 	MOV	r1, 0
 
 SPIN:
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	LBCO	r30.b0, CONST_PRUDRAM, r1, 1		//  3  1
-	ADD	r1, r1, 1				//  1  4
-	AND	r1, r1, r5				//  1  5
-	ADD	r2, r2, 1				//  1  6
-	AND	r2, r2, r5				//  1  7
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	MOV	r0, r0
-	LBCO	r30.b0, CONST_PRUDRAM, r2, 1		//  3  8
-	XOR	r3, r2, r1				//  1  11
-	QBGE	INT, r3, r4			// 1  1  =  3  12
-	QBA	NOINT				// 2  x == 14
+
+        MOV     r6, 9					// 1
+DEL1:
+        SUB     r6, r6, 1				// 9
+        QBNE    DEL1, r6, 0				// 9
+
+	LBCO	r30.b0, CONST_PRUDRAM, r1, 1		// 3  1
+	ADD	r2, r1, 1				// 1  6
+	AND	r2, r2, r5				// 1  7
+	ADD	r1, r2, 1				// 1  4
+	AND	r1, r1, r5				// 1  5
+
+        MOV     r6, 9					// 1
+DEL2:
+        SUB     r6, r6, 1				// 9
+        QBNE    DEL2, r6, 0				// 9
+
+
+	LBCO	r30.b0, CONST_PRUDRAM, r2, 1		// 3  8
+	XOR	r3, r2, r1				// 1  11
+	//QBGE	INT, r3, r4			// 1  1 =  3  12
+	QBBS	INT, r3, 12
+	QBA	NOINT				// 2  x ==    14
 INT:
  	MOV	r31.b0, PRU0_ARM_INTERRUPT+16	// x  2
 NOINT:

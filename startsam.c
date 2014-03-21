@@ -34,7 +34,7 @@ int main (int argc, char **argv)
 {
   unsigned char *buf;
 
-  pruinit(&argc, argv, AUXPRU);
+  pruinit(&argc, argv, MAINPRU);
 
   buf = mydram();
 

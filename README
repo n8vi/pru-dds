@@ -1,11 +1,25 @@
 This project is a Direct Digital Synthesizer signal generator for 
-the Beaglebone Black PRU (it may also work on other boards such as
-the Beaglebone White, but I haven't tested this).  You can load its 
-wavetable with various waveshapes, and you can have it run at all
-sorts of different frequencies with surprising resolution (at 3KHz,
-it has about 1/100 Hz resolution).  Hooked to an op-amp it could be
-used as a pretty good low-frequency signal generator for testing
-things, or perhaps be the LO for something?
+the Beaglebone Black PRU (it may also work on other AM33xx boards 
+such as the Beaglebone White, but I haven't tested this).  You can
+load its wavetable with various waveshapes, and you can have it run
+at all sorts of different frequencies with surprising resolution
+(at 3KHz, it has about 1/100 Hz resolution).  
+
+Possible uses for this software include:
+ * signal generator (it can generate sine, square, ramp, and 
+   sawtooth waves up to 5MHz in the default configuration, 
+   faster with configuration changes in config.pl, though the
+   faster you go the more everything will start to look sinusoidal)
+ * an LO or IF for a transmitter (so far, amplitude modulation is
+   included, other modulations will be available soon),
+ * A transmitter (just add an amplifier, for the AM broadcast band
+   or the 160m amateur band an op-amp gives you a nice low-power
+   signal, check your local regulations before use, I am not
+   responsible for what you do with this, I do not certify that
+   its output meets any legal requirement!)
+ * a tone generator (hook to an op-amp to drive a speaker)
+ * a dog annoyer (drive an ultrasonic transducer)
+... among other things.
 
 Be aware, PRU fast GPIO is incompatible with the HDMI, so firstly
 you can't use them together, and secondly, you'll have to disable

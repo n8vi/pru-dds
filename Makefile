@@ -24,8 +24,10 @@ SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -Wall -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
 PRUBINS=startwobbulator startdds startam startsam startdsb
-CPUBINS=setfreq setamp getfreq getamp sweep wavetable haltpru modstream testint
-BINS=$(CPUBINS) $(PRUBINS)
+CPUBINS=setfreq setamp getfreq getamp sweep wavetable haltpru modstream
+TESTSRC=$(wildcard test*.c)
+TESTBINS=$(patsubst %.c,%,$(TESTSRC))
+BINS=$(CPUBINS) $(PRUBINS) $(TESTBINS)
 PRUOBJS=$(patsubst %,%.o,$(PRUBINS))
 
 all: $(BINS) BB-BONE-PRUDDS-1-00A0.dtbo
@@ -82,4 +84,4 @@ test: install-dtbo all
 	./startdds
 
 clean:
-	rm -fr *.bib *.bin *~ *_bin.h *.o *.dtbo .*.swp ${BINS} config.h BB-BONE-PRUDDS-1-00A0.dts
+	rm -fr *.bib *.bin *~ *_bin.h *.o *.dtbo .*.swp $(BINS) config.h BB-BONE-PRUDDS-1-00A0.dts

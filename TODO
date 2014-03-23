@@ -1,14 +1,10 @@
 
-+ A program for the second PRU that modulates the first PRU with raised
-  cosine filtered CW, loaded from a text file or stdin.
-
 + A program for the second PRU that modulates the first PRU with varicode
   coded raised cosine filtered 31.25 BPSK, loaded from the keyboard or stdin.
+  Still mulling over the right way to do this, but it'll be next.
 
-+ A program for the second PRU that modulates the first PRU with AM, loaded
-  from a file of raw samples, in a sort of circular buffer, that when 
-  the PRU has read in and output half of it's buffer, it sends an interrupt
-  to the main CPU requesting that half be filled with new samples.
++ A program for the second PRU that modulates the first PRU with raised
+  cosine filtered CW, loaded from a text file or stdin
 
 + A program for the second PRU that modulates the first PRU with FM, loaded
   from a file of raw samples, in a sort of circular buffer, that when 
@@ -20,7 +16,14 @@
 
 + Throw a quick schematic in the source directory for a simple R-2R filter.
 
++ Turn util.c into a library, perhaps
+
 === Below are things that are done ===
+
++ A program for the second PRU that modulates the first PRU with AM, loaded
+  from a file of raw samples, in a sort of circular buffer, that when 
+  the PRU has read in and output half of it's buffer, it sends an interrupt
+  to the main CPU requesting that half be filled with new samples. [DONE]
 
 + I'm presently comtemplating dropping half of the wavetable so it's only
   4ksam in size, so I can use the rest of PRU memory for configuration,

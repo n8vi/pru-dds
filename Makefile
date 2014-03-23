@@ -27,6 +27,8 @@ PRUBINS=startwobbulator startdds startam startsam startdsb
 CPUBINS=setfreq setamp getfreq getamp sweep wavetable haltpru modstream
 TESTSRC=$(wildcard test*.c)
 TESTBINS=$(patsubst %.c,%,$(TESTSRC))
+TESTPRUBINS=$(patsubst %.c,%,$(wildcard starttest*.c))
+PRUBINS+=$(TESTPRUBINS)
 BINS=$(CPUBINS) $(PRUBINS) $(TESTBINS)
 PRUOBJS=$(patsubst %,%.o,$(PRUBINS))
 

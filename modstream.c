@@ -72,7 +72,6 @@ int main (int argc, char **argv)
      if (!read(f, buf+4096, 4096)) {
        return 0;
        }
-     prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
     }
 
   return(0);

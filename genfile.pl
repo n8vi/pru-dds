@@ -92,10 +92,10 @@ ECONFIGH
 #this is probably bad form ...
 
 if ($ARGV[0] eq '_dts') {
-  if ($mainpru == 0) {
+  if ($mainprunum == 0) {
     @resources = ("P9.31","P9.29","P9.30","P9.28","P9.42","P9.27","P9.41","P9.25");
     @pins = ("0x190","0x194","0x198","0x19c","0x1a0","0x1a4","0x1a8","0x1ac");
-  } elsif ($mainpru == 1) {
+  } elsif ($mainprunum == 1) {
     @resources = ("P8.45","P8.46","P8.43","P8.44","P8.41","P8.42","P8.39","P8.40");
     @pins = ("0x0a0","0x0a4","0x0a8","0x0ac","0x0b0","0x0b4","0x0b8","0x0bc");
   } else {

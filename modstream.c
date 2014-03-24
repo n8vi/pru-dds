@@ -29,11 +29,17 @@
 
 int main (int argc, char **argv)
 {
-  int f;
-  int i1=0, i2=0;
+  int f, f0, f1;
+  int i;
+  int retval;
   unsigned char *buf;
+  fd_set rfds;
+  struct timeval tv;
 
   pruinit(&argc, argv, AUXPRU);
+
+  f0 = prussdrv_pru_event_fd(PRU_EVTOUT_0);
+  f1 = prussdrv_pru_event_fd(PRU_EVTOUT_1);
 
   if (argc != 2) {
     fprintf(stderr, "Usage: %s <somefile.raw>\n", argv[0]);
@@ -49,29 +55,42 @@ int main (int argc, char **argv)
 
   buf = mydram();
 
-  read(f, buf, 8192);
+  // read(f, buf, 8192);
 
   prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
+  prussdrv_pru_clear_event (PRU_EVTOUT_1, PRU1_ARM_INTERRUPT);
 
   while (1) {
-     i1 = prussdrv_pru_wait_event (PRU_EVTOUT_0);
-      if (i1 != i2+1 && i2 != 0) {
-        fprintf(stderr, "Lost even interrupt %d->%d\n", i2, i1);
-        exit(0);
+
+    FD_ZERO(&rfds);
+    FD_SET(f0, &rfds);
+    FD_SET(f1, &rfds);
+ 
+    tv.tv_sec = 5;
+    tv.tv_usec = 0;
+
+    retval = select(f1+1, &rfds, NULL, NULL, &tv);
+
+    if (retval == -1) {
+      perror("select()");
+    } else if (retval && FD_ISSET(f0, &rfds)) {
+      if (!read(f, buf, 4096)) {
+        return 0;
         }
-     prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
-     if (!read(f, buf, 4096)) {
-       return 0;
-       }
-     i2 = prussdrv_pru_wait_event (PRU_EVTOUT_0);
-      if (i2 != i1+1) {
-        fprintf(stderr, "Lost odd interrupt %d->%d\n", i1, i2);
-        exit(0);
+      read(f0, &i, 4);
+      // printf("PRU_EVTOUT_0 %d\n", i);
+      prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
+    } else if (retval && FD_ISSET(f1, &rfds)) {
+      if (!read(f, buf+4096, 4096)) {
+        return 0;
         }
-     prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
-     if (!read(f, buf+4096, 4096)) {
-       return 0;
-       }
+      read(f1, &i, 4);
+      // printf("PRU_EVTOUT_1 %d\n", i);
+      prussdrv_pru_clear_event (PRU_EVTOUT_1, PRU1_ARM_INTERRUPT);
+    } else {
+      printf("No interrupts within five seconds (start modulator first!).\n");
+      exit(0);
+      }
     }
 
   return(0);

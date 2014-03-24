@@ -56,25 +56,28 @@ START:
 	MOV	R8, 127
 
 SPIN:
-	MOV	r4, 12489					// 1
+	MOV	r4, 12488					// 1
 DELAY:
-	SUB	r4, r4, 1					// 12491
-	QBNE	DELAY, r4, 0					// 12491
-	MOV	r0, r0						// 1
+	SUB	r4, r4, 1					// 12488
+	QBNE	DELAY, r4, 0					// 12488
+	MOV	R0, R0						// 1
 	MOV	r0, 0						// 1
 	LBCO	r0, CONST_PRUDRAM, r1, 1			// 3
 	SBCO	r8, CONST_PRUDRAM, r1, 1			// 3
+	MOV	r2, r1						// 1
+	ADD	r1, r1, 1					// 1
+	AND	r1, r1, r5					// 1
 	LSR	r0, r0, 1					// 1
 	SBBO	r0, R6, 4, 4					// 3
-	MOV	r2, r1						// 1
-	AND	r2, r2, r7					// 1
-	ADD	r1, r1, 1					// 1
-	AND	r1, r1, r5
-	MOV	r3, r1						// 1
-	AND	r3, r3, r7					// 1
-	QBNE	INT, r2, r3			// 1  1		// 3
-	QBA	NOINT				// 2  x	//	== 16
+
+	XOR	r3,r2,r1					// 1
+	MOV	r4,r2						// 1
+	LSR	r4,r4,12					// 1
+	LSR	r3,r3,12					// 1
+	ADD	r4, r4,PRU0_ARM_INTERRUPT+16			// 1
+	QBNE	INT,r3,0			// 1  1		// 3
+	QBA	NOINT				// 2  x		== 25000
 INT:
- 	MOV	r31.b0, PRU0_ARM_INTERRUPT+16	// x  2
+ 	MOV	r31.b0, r4			// x  2
 NOINT:
 	QBA	SPIN				// 3  3

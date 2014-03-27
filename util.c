@@ -394,14 +394,14 @@ int pruinit (int *argc, char **argv, int whichpru)
 
   ret = prussdrv_open(PRU_EVTOUT_0);
   if (ret) {
-    printf("prussdrv_open(PRU_EVTOUT_0) open failed\n");
-    return (ret);
+    printf("prussdrv_open(PRU_EVTOUT_0) failed ( == %d) \n", ret);
+    exit (ret);
     }
 
   ret = prussdrv_open(PRU_EVTOUT_1);
   if (ret) {
-    printf("prussdrv_open(PRU_EVTOUT_1) open failed\n");
-    return (ret);
+    printf("prussdrv_open(PRU_EVTOUT_1) open failed ( == %d) \n", ret);
+    exit (ret);
     }
 
   prussdrv_pruintc_init(&pruss_intc_initdata);

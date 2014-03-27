@@ -37,36 +37,28 @@ START:
 	MOV	r1, CTBIR_0
 	SBBO	r0,r1,0,4     // set up C24 = &PRU0_DRAM
 
-	MOV	r4, 4096
-	MOV	r5, 8191
-	MOV	r2, 0
-	MOV	r1, 0
+	MOV	r5.w0, 8191
+	MOV	r5.w1, 8191
+	MOV	r6.w0, 2
+	MOV	r6.w1, 2
+	MOV	r1.w0, 1
+	MOV	r1.w1, 0
+	MOV	r7, PRU0_ARM_INTERRUPT+16
+	LSL	r7, r7, 12
 
 SPIN:
 
-        MOV     r6, 9					// 1
-DEL1:
-        SUB     r6, r6, 1				// 9
-        QBNE    DEL1, r6, 0				// 9
-
-	LBCO	r30.b0, CONST_PRUDRAM, r1, 1		// 3  1
-	ADD	r2, r1, 1				// 1  6
-	AND	r2, r2, r5				// 1  7
-	ADD	r1, r2, 1				// 1  4
+	LBCO	r30.b0, CONST_PRUDRAM, r1.w0, 1		// 3  1
+	ADD	r1, r1, r6				// 1  4
 	AND	r1, r1, r5				// 1  5
 
-        MOV     r6, 9					// 1
-DEL2:
-        SUB     r6, r6, 1				// 9
-        QBNE    DEL2, r6, 0				// 9
-
-
-	LBCO	r30.b0, CONST_PRUDRAM, r2, 1		// 3  8
-	XOR	r3, r2, r1				// 1  11
-	//QBGE	INT, r3, r4			// 1  1 =  3  12
-	QBBS	INT, r3, 12
+	XOR	r3, r1.w1, r1.w0			// 1  6
+	ADD	r4, r1.w1, r7				// 1  7
+	LBCO	r30.b0, CONST_PRUDRAM, r1.w1, 1		// 3  8
+	LSR	r4, r4, 12				// 1  11
+	QBBS	INT, r3, 12			// 1  1 =  3    
 	QBA	NOINT				// 2  x ==    14
 INT:
- 	MOV	r31.b0, PRU0_ARM_INTERRUPT+16	// x  2
+ 	MOV	r31.b0, r4			// x  2
 NOINT:
 	QBA	SPIN				// 3  3

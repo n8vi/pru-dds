@@ -208,8 +208,8 @@ void bit2psk(int t, unsigned char *data, int *pos)
   double baseband;
   int samp;
   
-  for (i=*pos; i<*pos+(symsiz*2); i++) {
-    baseband = (cos((p*(PI)*BAUD/2)/modsamprate));
+  for (i=*pos; i<*pos+(symsiz); i++) {
+    baseband = (cos((p*(PI)*BAUD/1)/modsamprate));
     baseband *= 128.0;
     samp = (int)baseband;
     samp += 128;

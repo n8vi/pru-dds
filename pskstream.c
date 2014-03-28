@@ -260,7 +260,7 @@ int main (int argc, char **argv)
   int f0, f1, i;
   struct sigaction new_action, old_action;
   int pos=0;
-  unsigned char buf[8192];
+  unsigned char buf[65536];
 
   symsiz = modsamprate/BAUD;
 

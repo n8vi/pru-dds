@@ -55,6 +55,10 @@ the source directory, say somefile.mp3, then type "make somefile.raw" (without
 quotes), then "./startdds", "./setfreq 1000000", "./startam", and finally
 "./modstream somefile.raw" (replacing "somefile" with the actual file name).
 
+Perhaps you want to output BPSK31-modulated RF.  "./startdds",
+"./setfreq 1839000", "./startdsb", and finally "./pskstream".  Then
+type things!
+
 Playing with things is recommended, because I'm not done organising enough
 to document properly yet.
 

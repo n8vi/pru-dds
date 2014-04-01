@@ -59,6 +59,10 @@ Perhaps you want to output BPSK31-modulated RF.  "./startdds",
 "./setfreq 1839000", "./startdsb", and finally "./pskstream".  Then
 type things!
 
+Perhaps you want to syncronize your radio-controlled "atomic" clock with
+your beaglebone, which ostensibly is running NTP.  "./startdds", 
+"./setfreq 60000", "./startam", and finally "./timestream".
+
 Playing with things is recommended, because I'm not done organising enough
 to document properly yet.
 

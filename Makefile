@@ -25,7 +25,7 @@ SHELL=/bin/bash # globs don't work if I don't (see install-dtbo target)
 CC=gcc -ggdb -Wall -D__DEBUG -mtune=cortex-a8 -march=armv7-a
 LDLIBS=-lprussdrv -lpthread -lm
 PRUBINS=startwobbulator startdds startam startsam startdsb
-CPUBINS=setfreq setamp getfreq getamp sweep wavetable haltpru modstream pskstream
+CPUBINS=setfreq setamp getfreq getamp sweep wavetable haltpru modstream pskstream timestream
 TESTSRC=$(wildcard test*.c)
 TESTBINS=$(patsubst %.c,%,$(TESTSRC))
 TESTPRUBINS=$(patsubst %.c,%,$(wildcard starttest*.c))

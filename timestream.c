@@ -27,6 +27,7 @@
 #include "util.h"
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include <sys/time.h>
 
 #define MARKER (6400)
@@ -37,6 +38,8 @@ typedef struct instant {
    time_t second;
    unsigned short sampno;
 } instant;
+
+static int mod_depth;
 
 short timecode(time_t sec)
 {
@@ -115,9 +118,9 @@ unsigned char *gensamples(instant *i)
 {
   static unsigned char buf[8000*2];
 
-  memset(buf, 5, timecode(i->second));
+  memset(buf, mod_depth, timecode(i->second)); 
   memset(buf+timecode(i->second), 127, 8000-timecode(i->second));
-  memset(buf+8000, 5, timecode(i->second+1));
+  memset(buf+8000, mod_depth, timecode(i->second+1));
   memset(buf+8000+timecode(i->second+1), 127, 8000-timecode(i->second+1));
 
   return buf+i->sampno;
@@ -135,8 +138,27 @@ int main (int argc, char **argv)
   struct timeval tv2;
   struct timezone tz;
   instant inst;
+  int opt;
+  int offset = 0;
 
   pruinit(&argc, argv, AUXPRU);
+
+  while ((opt = getopt(argc, argv, "hd:o:")) != -1) {
+    switch (opt) {
+      case 'd':
+        mod_depth = atoi(optarg);
+        mod_depth = -abs(mod_depth);
+        mod_depth = round(127*pow(10.0, mod_depth/20.0));
+        break;
+      case 'o':
+        offset = atoi(optarg);
+        break;
+      case '-h':
+      default: /* '?' */
+        fprintf(stderr, "Usage: %s [-p prunum] [-d depth (in -dB, default 17)] [-o offset (in seconds, default 0)]\n", argv[0]);
+        exit(EXIT_FAILURE);
+        }
+  }
 
   f0 = prussdrv_pru_event_fd(PRU_EVTOUT_0);
   f1 = prussdrv_pru_event_fd(PRU_EVTOUT_1);
@@ -158,7 +180,7 @@ int main (int argc, char **argv)
     retval = select(f1+1, &rfds, NULL, NULL, &tv);
 
     gettimeofday(&tv2, &tz);
-    inst.second = tv2.tv_sec;
+    inst.second = tv2.tv_sec+offset;
     inst.sampno = ((tv2.tv_usec*8)/1000)%8000;
     inst.sampno += 4096;
     inst.second += inst.sampno/8000;

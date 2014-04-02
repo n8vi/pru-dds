@@ -39,7 +39,7 @@ typedef struct instant {
    unsigned short sampno;
 } instant;
 
-static int mod_depth;
+static int mod_depth = 18; // 127*N V - 17 dB
 
 short timecode(time_t sec)
 {
@@ -152,8 +152,8 @@ int main (int argc, char **argv)
         break;
       case 'o':
         offset = atoi(optarg);
+        printf("Offset %d seconds\n", offset);
         break;
-      case '-h':
       default: /* '?' */
         fprintf(stderr, "Usage: %s [-p prunum] [-d depth (in -dB, default 17)] [-o offset (in seconds, default 0)]\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -201,7 +201,7 @@ int main (int argc, char **argv)
       read(f1, &i, 4);
       prussdrv_pru_clear_event (PRU_EVTOUT_1, PRU1_ARM_INTERRUPT);
     } else {
-      printf("No interrupts within five seconds (start modulator first!).\n");
+      printf("No interrupts within five seconds (start AM modulator first!).\n");
       exit(0);
       }
     }

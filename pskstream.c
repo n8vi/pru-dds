@@ -31,7 +31,9 @@
 #include <math.h>
 
 #define PI (3.141592653585)
-#define BAUD (31.25)
+
+static double baud = 31.25;
+
 
 static double modsamprate = 8000;
 static double symsiz;
@@ -198,7 +200,7 @@ void newsighandler(int sigIn)
   exit(0);
 }
 
-// data needs to by a chunk of 8192 bytes, and the caller needs to rewind it each time we pass
+// data needs to be a chunk of 8192 bytes, and the caller needs to rewind it each time we pass
 // the 4096 mark (after doing something with the buffer, of course!)
 
 void bit2psk(int t, unsigned char *data, int *pos)
@@ -209,7 +211,7 @@ void bit2psk(int t, unsigned char *data, int *pos)
   int samp;
   
   for (i=*pos; i<*pos+(symsiz); i++) {
-    baseband = (cos((p*(PI)*BAUD/1)/modsamprate));
+    baseband = cos((p*(PI)*baud)/modsamprate);
     baseband *= 128.0;
     samp = (int)baseband;
     samp += 128;
@@ -227,7 +229,7 @@ void char2psk(char c, unsigned char *data, int *pos)
 
   for (i=15; i>=0; i--) {
     t1 = t0;
-    t0 = ((varicode[c])>>i)&1;
+    t0 = ((varicode[(int)c])>>i)&1;
     bit2psk(t0, data, pos);
     if ((t0|t1) == 0) {
       return;
@@ -237,7 +239,7 @@ void char2psk(char c, unsigned char *data, int *pos)
 
 void flushbuf(unsigned char *data, int *pos)
 {
-  memcpy(data, data+4096, 4096);
+  memcpy(data, data+4096, 65536-4096);
   *pos -= 4096;
   if (*pos < 0) {
     *pos = 0;
@@ -261,8 +263,21 @@ int main (int argc, char **argv)
   struct sigaction new_action, old_action;
   int pos=0;
   unsigned char buf[65536];
+  int opt;
 
-  symsiz = modsamprate/BAUD;
+  while ((opt = getopt(argc, argv, "b:")) != -1) {
+    switch (opt) {
+      case 'b':
+        baud = atoi(optarg);
+        break;
+      default: /* '?' */
+        fprintf(stderr, "Usage: %s [-p prunum] [-b baud\n", argv[0]);
+        exit(EXIT_FAILURE);
+        }
+  }
+
+  symsiz = modsamprate/baud;
+  printf("Baud rate %f (%f samples/symbol)\n\n", baud, symsiz);
 
   pruinit(&argc, argv, AUXPRU);
 

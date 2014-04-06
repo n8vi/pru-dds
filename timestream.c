@@ -39,7 +39,7 @@ typedef struct instant {
    unsigned short sampno;
 } instant;
 
-static int mod_depth = 18; // 127*N V - 17 dB
+static int low_amp = 18; // 127*N V - 17 dB
 
 short timecode(time_t sec)
 {
@@ -118,10 +118,10 @@ unsigned char *gensamples(instant *i)
 {
   static unsigned char buf[8000*2];
 
-  memset(buf, mod_depth, timecode(i->second)); 
-  memset(buf+timecode(i->second), 127, 8000-timecode(i->second));
-  memset(buf+8000, mod_depth, timecode(i->second+1));
-  memset(buf+8000+timecode(i->second+1), 127, 8000-timecode(i->second+1));
+  memset(buf, low_amp, timecode(i->second)); 
+  memset(buf+timecode(i->second), 255, 8000-timecode(i->second));
+  memset(buf+8000, low_amp, timecode(i->second+1));
+  memset(buf+8000+timecode(i->second+1), 255, 8000-timecode(i->second+1));
 
   return buf+i->sampno;
 }
@@ -139,26 +139,41 @@ int main (int argc, char **argv)
   struct timezone tz;
   instant inst;
   int opt;
-  int offset = 0;
+  int off_sec = 0;
+  int off_samp = 0;
+  double mod_depth;
+  double offset;
 
   pruinit(&argc, argv, AUXPRU);
 
-  while ((opt = getopt(argc, argv, "hd:o:")) != -1) {
+  while ((opt = getopt(argc, argv, "h:m:s:d:o:")) != -1) {
     switch (opt) {
-      case 'd':
-        mod_depth = atoi(optarg);
+      case 'l':
+        mod_depth = atof(optarg);
         mod_depth = -abs(mod_depth);
-        mod_depth = round(127*pow(10.0, mod_depth/20.0));
+        low_amp = round(127*pow(10.0, mod_depth/20.0));
         break;
-      case 'o':
-        offset = atoi(optarg);
-        printf("Offset %d seconds\n", offset);
+      case 's':
+        offset = atof(optarg);
+        off_sec += offset;
+        off_samp = (offset - (int)offset) * 8000;
+        break;
+      case 'm':
+        off_sec += atoi(optarg) * 60;
+        break;
+      case 'h':
+        off_sec += atoi(optarg) * 60 * 60;
+        break;
+      case 'd':
+        off_sec += atoi(optarg) * 60 * 60 * 24;
         break;
       default: /* '?' */
-        fprintf(stderr, "Usage: %s [-p prunum] [-d depth (in -dB, default 17)] [-o offset (in seconds, default 0)]\n", argv[0]);
+        fprintf(stderr, "Usage: %s [-p prunum] [-l depth (in -dB, default 17)] [-d days] [-h hours] [-m minutes] [-s offset (in seconds, default 0)]\n", argv[0]);
         exit(EXIT_FAILURE);
         }
   }
+
+  printf ("Offset %d seconds + %d samples.  Low amplitude %d.\n", off_sec, off_samp, low_amp);
 
   f0 = prussdrv_pru_event_fd(PRU_EVTOUT_0);
   f1 = prussdrv_pru_event_fd(PRU_EVTOUT_1);
@@ -180,8 +195,8 @@ int main (int argc, char **argv)
     retval = select(f1+1, &rfds, NULL, NULL, &tv);
 
     gettimeofday(&tv2, &tz);
-    inst.second = tv2.tv_sec+offset;
-    inst.sampno = ((tv2.tv_usec*8)/1000)%8000;
+    inst.second = tv2.tv_sec+off_sec;
+    inst.sampno = ((tv2.tv_usec*8)/1000)%8000+off_samp;
     inst.sampno += 4096;
     inst.second += inst.sampno/8000;
     inst.sampno %= 8000;

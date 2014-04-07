@@ -41,21 +41,23 @@ int main (int argc, char **argv)
   f0 = prussdrv_pru_event_fd(PRU_EVTOUT_0);
   f1 = prussdrv_pru_event_fd(PRU_EVTOUT_1);
 
-  if (argc != 2) {
-    fprintf(stderr, "Usage: %s <somefile.raw>\n", argv[0]);
-    return 0;
-    }
+  argv++;
 
-  f = open(argv[1], O_RDONLY);
-
-  if (f == -1) {
-    fprintf(stderr, "Cannot open %s\n", argv[1]);
-    return 0;
+  if (!argc--) {
+    printf("Streaming stdin\n");
+    f = 0;
+  } else {
+    f = open(*argv, O_RDONLY);
+    argc--;
+    if (f == -1) {
+      fprintf(stderr, "Cannot open %s\n", *argv);
+      return 0;
+      }
+    printf("Streaming %s\n", *argv);
+    argv++;
     }
 
   buf = mydram();
-
-  // read(f, buf, 8192);
 
   prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
   prussdrv_pru_clear_event (PRU_EVTOUT_1, PRU1_ARM_INTERRUPT);
@@ -74,15 +76,35 @@ int main (int argc, char **argv)
     if (retval == -1) {
       perror("select()");
     } else if (retval && FD_ISSET(f0, &rfds)) {
-      if (!read(f, buf, 4096)) {
-        return 0;
+      if (!read(f, buf, 4096) && argc) {
+        if (argc--) {
+          f = open(*argv, O_RDONLY);
+          if (f == -1) {
+            fprintf(stderr, "Cannot open %s\n", *argv);
+            return 0;
+            }
+          printf("Streaming %s\n", *argv);
+          argv++;
+        } else {
+          return 0;
+          }
         }
       read(f0, &i, 4);
       // printf("PRU_EVTOUT_0 %d\n", i);
       prussdrv_pru_clear_event (PRU_EVTOUT_0, PRU0_ARM_INTERRUPT);
     } else if (retval && FD_ISSET(f1, &rfds)) {
       if (!read(f, buf+4096, 4096)) {
-        return 0;
+        if (argc--) {
+          f = open(*argv, O_RDONLY);
+          if (f == -1) {
+            fprintf(stderr, "Cannot open %s\n", *argv);
+            return 0;
+            }
+          printf("Streaming %s\n", *argv);
+          argv++;
+        } else {
+          return 0;
+          }
         }
       read(f1, &i, 4);
       // printf("PRU_EVTOUT_1 %d\n", i);

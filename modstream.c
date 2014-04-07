@@ -43,7 +43,7 @@ int main (int argc, char **argv)
 
   argv++;
 
-  if (!argc--) {
+  if (!--argc) {
     printf("Streaming stdin\n");
     f = 0;
   } else {

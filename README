@@ -7,7 +7,7 @@ at all sorts of different frequencies with surprising resolution
 
 Possible uses for this software include:
  * signal generator (it can generate sine, square, ramp, and 
-   sawtooth waves up to 5MHz in the default configuration, 
+   triangle waves up to 5MHz in the default configuration, 
    faster with configuration changes in config.pl, though the
    faster you go the more everything will start to look sinusoidal)
  * an LO or IF for a transmitter (so far, amplitude modulation is

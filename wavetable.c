@@ -85,7 +85,7 @@ static int loadsquare()
     }
 }
 
-static int loadsawtooth()
+static int loadtriangle()
 {
   int i;
   double f;
@@ -147,7 +147,7 @@ int main (int argc, char **argv)
 
   if (argc != 2) {
     fprintf(stderr, "\nUsage: %s <waveshape>\n", argv[0]);
-    fprintf(stderr, "  <waveshape> can be a filename or one of sine, square, sawtooth, ramp\n");
+    fprintf(stderr, "  <waveshape> can be a filename or one of sine, square, triangle, ramp\n");
     fprintf(stderr, "  If the file exists it takes precedence over the built-in waveshape.\n");
     fprintf(stderr, "  Files must contain raw 8-bit unsigned samples.  You can convert wave\n");
     fprintf(stderr, "  and other such files with the excellent but seperate sox package.  BE\n");
@@ -177,9 +177,9 @@ int main (int argc, char **argv)
   } else if (!strcmp(argv[1], "square")) {
     printf("Loading built-in square table\n");
     ret = loadsquare();
-  } else if (!strcmp(argv[1], "sawtooth")) {
-    printf("Loading built-in sawtooth table\n");
-    ret = loadsawtooth();
+  } else if (!strcmp(argv[1], "triangle")) {
+    printf("Loading built-in triangle table\n");
+    ret = loadtriangle();
   } else if (!strcmp(argv[1], "ramp")) {
     printf("Loading built-in ramp table\n");
     ret = loadramp();

@@ -26,6 +26,7 @@ $tablelen = 1<<$tablebits;  # how many 8-bit samples in our table?
 $tableprec = 32-$tablebits; # how many bits left over in skiplen for the fractional part?
 $tablemult = 1<<$tableprec; # what I divide skiplen integer by to determine how many samples to jump
 $ddsmax = 1<<$ddsbits;
+$tablebitsminustwo = $tablebits - 2;
 
 if ($tablebits > 13) {
   die "\$tablebits too high for available DRAM - must be 13 or less (see config.pl)\n";
@@ -72,6 +73,7 @@ if ($ARGV[0] eq '_config_h') {
 #ifndef _CONFIG_H
 
 #define TABLEBITS ($tablebits)
+#define TABLEBITSMINUSTWO ($tablebitsminustwo)
 #define CPUCYCLES ($cpucycles)
 #define CLOCKRATE ($clockrate)
 #define MAINPRUNUM ($mainprunum)

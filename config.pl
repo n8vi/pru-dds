@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright (c) 2014 Brad J. Tarratt
+# Copyright (c) 2014, 2015 Brad J. Tarratt
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

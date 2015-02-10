@@ -20,6 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+$graballpins = 1;
+# Change to zero if you need some of the pins unused by the DDS for something
+# else.  This will probably break future code I write that uses GPIO output 
+# from both PRUs (I'm thinking of an I+Q modulator, for one).
+
 $tablebits = 12;
 # How many bits should be used to address the wavetable?
 # The number of samples in the wavetable will be two raised
@@ -54,3 +59,4 @@ $amplitude = 1;
 $realtimeamp = 1;
 # glitch-free amplitude changes (in exchange for lower max frequency)
 # rerun startdds and setfreq after changing this
+

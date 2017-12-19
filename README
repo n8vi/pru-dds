@@ -79,3 +79,44 @@ Also be aware that since in my experience uninstalling a dtbo requires a
 reboot anyway, I make all variants of my dtbo have the same name (which
 is probably very very bad practice.  I'll deal with that if someone finds a
 legitimate reason to complain about it.
+
+
+
+===Below this point in the readme is the readme from another project of mine,
+cut and pasted.  It tells a lot of what's necessary to run this project on
+a beaglebone with a newer software load.  The makefile will be clever enough
+to help you a bit with this ... soonish.
+
+## Initial Setup
+
+1. Install the latest firmware, as of this writing that is 2017-10-10.
+   (That's https://debian.beagleboard.org/images/bone-debian-9.2-iot-armhf-2017-10-10-4gb.img.xz from https://beagleboard.org/latest-images)
+2. Edit /boot/uEnv.txt such that the section on "###PRUSS OPTIONS" loads the `uio` dtbo rather than the `rproc` one, reboot.  Note `uio_pruss` now shows up in lsmod output.
+   ```
+   ###PRUSS OPTIONS
+   ###pru_rproc (4.4.x-ti kernel)
+   uboot_overlay_pru=/lib/firmware/AM335X-PRU-RPROC-4-4-TI-00A0.dtbo
+   ###pru_uio (4.4.x-ti & mainline/bone kernel)
+   # uboot_overlay_pru=/lib/firmware/AM335X-PRU-UIO-00A0.dtbo
+   ```
+   should be changed to:
+   ```
+   ###PRUSS OPTIONS
+   ###pru_rproc (4.4.x-ti kernel)
+   # uboot_overlay_pru=/lib/firmware/AM335X-PRU-RPROC-4-4-TI-00A0.dtbo
+   ###pru_uio (4.4.x-ti & mainline/bone kernel)
+   uboot_overlay_pru=/lib/firmware/AM335X-PRU-UIO-00A0.dtbo
+   ```
+
+3. Install the pasm assembler and the libpruss library from https://github.com/beagleboard/am335x_pru_package.  The preinstalled clpru compiler/assembler will not work for this as they produce ELF binaries, which we can't use with UIO.
+4. Create a file in /etc/profile.d/usr-local/lib.sh containing the following:
+    ```
+    if [ "x${LD_LIBRARY_PATH}x" == 'xx' ]; then
+      export LD_LIBRARY_PATH=/usr/local/lib
+    else
+      export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+    fi
+    ```
+5. You now have a complete development environment for assembling and running PRU programs and their supporting ARM-side applications directly on the beaglebone.
+
+
